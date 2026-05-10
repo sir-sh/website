@@ -1,5 +1,12 @@
 import Link from 'next/link';
 
+const workflows = [
+  { cmd: 'sir run checkout feature/payments', desc: 'Multi-repo branch checkout' },
+  { cmd: 'sir run docker-clean', desc: 'Clean containers & images' },
+  { cmd: 'sir run test-all', desc: 'Parallel test runner' },
+  { cmd: 'sir run sync-env', desc: 'Sync env from 1Password' },
+];
+
 export default function Home() {
   return (
     <div className="relative min-h-screen bg-black text-white overflow-hidden font-sans">
@@ -57,6 +64,23 @@ export default function Home() {
               Read Documentation
               <span className="ml-2 group-hover:translate-x-0.5 transition-transform">→</span>
             </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Workflow showcase - minimal Apple style */}
+      <section className="relative py-20 border-b border-white/5">
+        <div className="max-w-5xl mx-auto px-8">
+          <div className="flex items-center justify-center gap-12">
+            {workflows.map((wf, i) => (
+              <div key={i} className="group flex flex-col items-center text-center">
+                <div className="w-16 h-16 rounded-full bg-white/5 border border-white/10 flex items-center justify-center mb-4 group-hover:bg-white/10 group-hover:border-white/20 transition-all">
+                  <span className="text-xl">⚡</span>
+                </div>
+                <code className="text-xs font-mono text-white/40 mb-2 group-hover:text-white/60 transition-colors">{wf.cmd}</code>
+                <span className="text-xs text-white/30">{wf.desc}</span>
+              </div>
+            ))}
           </div>
         </div>
       </section>
