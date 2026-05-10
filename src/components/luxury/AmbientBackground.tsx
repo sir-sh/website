@@ -29,18 +29,16 @@ export function AmbientBackground({ variant = 'light' }: { variant?: 'light' | '
       vy: number;
       size: number;
       opacity: number;
-      hue: number;
     }> = [];
     
-    for (let i = 0; i < 50; i++) {
+    for (let i = 0; i < 40; i++) {
       particles.push({
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height,
-        vx: (Math.random() - 0.5) * 0.3,
-        vy: (Math.random() - 0.5) * 0.3,
-        size: Math.random() * 2 + 1,
-        opacity: Math.random() * 0.3 + 0.1,
-        hue: Math.random() > 0.5 ? 45 : 220,
+        vx: (Math.random() - 0.5) * 0.2,
+        vy: (Math.random() - 0.5) * 0.2,
+        size: Math.random() * 1.5 + 0.5,
+        opacity: Math.random() * 0.2 + 0.05,
       });
     }
     
@@ -62,11 +60,11 @@ export function AmbientBackground({ variant = 'light' }: { variant?: 'light' | '
           const dy = p.y - p2.y;
           const dist = Math.sqrt(dx * dx + dy * dy);
           
-          if (dist < 150) {
+          if (dist < 120) {
             ctx.beginPath();
             ctx.strokeStyle = variant === 'dark' 
-              ? `rgba(201, 169, 98, ${0.05 * (1 - dist / 150)})` 
-              : `rgba(201, 169, 98, ${0.08 * (1 - dist / 150)})`;
+              ? `rgba(201, 169, 98, ${0.06 * (1 - dist / 120)})` 
+              : `rgba(201, 169, 98, ${0.04 * (1 - dist / 120)})`;
             ctx.lineWidth = 0.5;
             ctx.moveTo(p.x, p.y);
             ctx.lineTo(p2.x, p2.y);
@@ -77,8 +75,8 @@ export function AmbientBackground({ variant = 'light' }: { variant?: 'light' | '
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
         ctx.fillStyle = variant === 'dark'
-          ? `hsla(45, 50%, 70%, ${p.opacity})`
-          : `hsla(40, 60%, 50%, ${p.opacity})`;
+          ? `rgba(201, 169, 98, ${p.opacity})`
+          : `rgba(180, 140, 80, ${p.opacity})`;
         ctx.fill();
       });
       
@@ -112,55 +110,39 @@ export function HeroVisual({ variant = 'light' }: { variant?: 'light' | 'dark' }
         className="absolute inset-0"
         style={{
           background: variant === 'dark'
-            ? 'radial-gradient(ellipse at 30% 50%, rgba(201, 169, 98, 0.08) 0%, transparent 50%), radial-gradient(ellipse at 70% 30%, rgba(96, 165, 250, 0.05) 0%, transparent 40%)'
-            : 'radial-gradient(ellipse at 20% 80%, rgba(201, 169, 98, 0.06) 0%, transparent 40%), radial-gradient(ellipse at 80% 20%, rgba(96, 165, 250, 0.04) 0%, transparent 40%)',
+            ? 'radial-gradient(ellipse at 30% 50%, rgba(201, 169, 98, 0.06) 0%, transparent 50%), radial-gradient(ellipse at 70% 30%, rgba(96, 165, 250, 0.04) 0%, transparent 40%)'
+            : 'radial-gradient(ellipse at 20% 80%, rgba(201, 169, 98, 0.05) 0%, transparent 40%), radial-gradient(ellipse at 80% 20%, rgba(96, 165, 250, 0.03) 0%, transparent 40%)',
         }}
       />
       
-      {/* Grid lines */}
+      {/* Subtle grid */}
       <div 
-        className="absolute inset-0 opacity-30"
+        className="absolute inset-0 opacity-20"
         style={{
           backgroundImage: variant === 'dark'
-            ? `linear-gradient(rgba(201, 169, 98, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(201, 169, 98, 0.05) 1px, transparent 1px)`
+            ? `linear-gradient(rgba(201, 169, 98, 0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(201, 169, 98, 0.06) 1px, transparent 1px)`
             : `linear-gradient(rgba(201, 169, 98, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(201, 169, 98, 0.03) 1px, transparent 1px)`,
-          backgroundSize: '100px 100px',
+          backgroundSize: '80px 80px',
           maskImage: 'radial-gradient(ellipse at center, black 0%, transparent 70%)',
           WebkitMaskImage: 'radial-gradient(ellipse at center, black 0%, transparent 70%)',
         }}
       />
       
-      {/* HUD rings */}
+      {/* Concentric rings */}
       <div 
-        className="absolute top-1/4 left-1/4 w-96 h-96 border rounded-full"
+        className="absolute top-1/3 left-1/4 w-80 h-80 border rounded-full animate-pulse-ring"
         style={{
           borderColor: 'rgba(201, 169, 98, 0.08)',
           transform: 'translate(-50%, -50%)',
         }}
       />
       <div 
-        className="absolute top-1/4 left-1/4 w-64 h-64 border rounded-full"
+        className="absolute top-1/3 left-1/4 w-56 h-56 border rounded-full"
         style={{
-          borderColor: 'rgba(201, 169, 98, 0.06)',
+          borderColor: 'rgba(201, 169, 98, 0.05)',
           transform: 'translate(-50%, -50%)',
         }}
       />
-      
-      {/* Animated ring */}
-      <div 
-        className="absolute top-1/3 right-1/4 w-48 h-48 border border-dashed rounded-full"
-        style={{
-          borderColor: 'rgba(96, 165, 250, 0.1)',
-          animation: 'spin 60s linear infinite',
-        }}
-      />
-      
-      <style jsx>{`
-        @keyframes spin {
-          from { transform: translate(-50%, -50%) rotate(0deg); }
-          to { transform: translate(-50%, -50%) rotate(360deg); }
-        }
-      `}</style>
     </div>
   );
 }

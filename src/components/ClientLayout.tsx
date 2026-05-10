@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { AmbientBackground, HeroVisual } from './luxury/AmbientBackground';
 
 export function ClientLayout({ children }: { children: React.ReactNode }) {
   const [darkMode, setDarkMode] = useState(false);
@@ -24,14 +23,14 @@ export function ClientLayout({ children }: { children: React.ReactNode }) {
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-50 h-20 flex items-center">
-        <div className="absolute inset-0 glass-surface border-b border-white/10" />
-        <nav className="relative w-full max-w-7xl mx-auto px-8 flex items-center justify-between">
+      {/* Header */}
+      <header className="fixed top-0 left-0 right-0 z-50 h-20 header-glass">
+        <nav className="h-full max-w-7xl mx-auto px-8 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-3 group">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-100 to-amber-200 flex items-center justify-center text-xl group-hover:shadow-lg group-hover:shadow-amber-500/20 transition-all duration-300">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-100 to-amber-200 flex items-center justify-center text-xl shadow-sm group-hover:shadow-md group-hover:shadow-amber-500/20 transition-all duration-300">
               ⚡
             </div>
-            <span className="text-lg font-light tracking-tight">sir.sh</span>
+            <span className="text-lg font-light tracking-tight text-gray-900 dark:text-white">sir.sh</span>
           </Link>
           
           <div className="hidden md:flex items-center gap-10">
@@ -41,18 +40,18 @@ export function ClientLayout({ children }: { children: React.ReactNode }) {
             <Link href="/blog" className="nav-link">Blog</Link>
           </div>
           
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
             <button
               onClick={() => setDarkMode(!darkMode)}
-              className="w-10 h-10 rounded-xl glass-panel flex items-center justify-center hover:bg-white/20 transition-all duration-300"
+              className="w-10 h-10 rounded-xl glass-panel flex items-center justify-center hover:bg-white/40 transition-all duration-300"
               aria-label="Toggle dark mode"
             >
               {darkMode ? (
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg className="w-5 h-5 text-gray-900" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
                 </svg>
               ) : (
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg className="w-5 h-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
                 </svg>
               )}
@@ -71,10 +70,15 @@ export function ClientLayout({ children }: { children: React.ReactNode }) {
           </div>
         </nav>
       </header>
-      <main className="pt-20">{children}</main>
-      <footer className="relative py-20 border-t border-white/5">
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/5" />
-        <div className="relative max-w-7xl mx-auto px-8">
+      
+      {/* Main Content */}
+      <main className="pt-20">
+        {children}
+      </main>
+      
+      {/* Footer */}
+      <footer className="relative py-16 border-t border-black/5 dark:border-white/5">
+        <div className="max-w-7xl mx-auto px-8">
           <div className="flex flex-col md:flex-row items-center justify-between gap-8">
             <div className="flex items-center gap-3">
               <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-amber-100 to-amber-200 flex items-center justify-center text-sm">
