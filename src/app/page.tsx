@@ -131,18 +131,54 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Workflow examples - what you can do */}
+      {/* Workflow anatomy - show YAML structure */}
       <section className="relative py-32 px-8">
         <div className="max-w-5xl mx-auto">
-          <p className="text-xs text-white/30 uppercase tracking-widest mb-8">What it looks like</p>
-          
-          <div className="space-y-4">
-            {workflows.map((wf, i) => (
-              <div key={i} className="group flex items-start gap-6 p-6 bg-white/[0.03] border border-white/[0.08] rounded-xl hover:bg-white/[0.06] hover:border-white/[0.12] transition-all">
-                <code className="text-sm text-emerald-400/80 font-mono whitespace-nowrap group-hover:text-emerald-400 transition-colors">{wf.cmd}</code>
-                <span className="text-sm text-white/40">{wf.desc}</span>
+          <div className="text-center mb-16">
+            <p className="text-xs text-white/30 uppercase tracking-widest mb-4">Under the hood</p>
+            <h2 className="text-4xl font-bold text-white">Your workflow is just YAML</h2>
+            <p className="text-lg text-white/50 mt-4">Clean, readable, version-controllable</p>
+          </div>
+
+          <div className="relative">
+            <div className="absolute -inset-4 bg-gradient-to-br from-[#ff6b35]/10 via-transparent to-[#c44569]/5 rounded-2xl" />
+            <div className="bg-[#0d0a12] border border-white/10 rounded-xl overflow-hidden">
+              {/* Header */}
+              <div className="flex items-center gap-3 px-5 py-4 bg-white/[0.03] border-b border-white/5">
+                <div className="w-3 h-3 rounded-full bg-[#ff6b35]/40" />
+                <div className="w-3 h-3 rounded-full bg-[#f25c54]/40" />
+                <div className="w-3 h-3 rounded-full bg-[#c44569]/40" />
+                <span className="ml-3 text-sm text-white/40 font-mono">checkout-branch.sir.yml</span>
               </div>
-            ))}
+              {/* YAML content */}
+              <div className="p-8 font-mono text-sm leading-relaxed">
+                <div className="text-white/30"># Your workflow definition</div>
+                <div className="h-4" />
+                <div><span className="text-[#6c5ce7]">workflows:</span></div>
+                <div className="pl-4"><span className="text-emerald-400">{`checkout-feature:`}</span></div>
+                <div className="pl-8"><span className="text-white/50">repos:</span></div>
+                <div className="pl-12"><span className="text-[#ff6b35]">- name: frontend</span></div>
+                <div className="pl-16"><span className="text-white/50">path: ~/projects/frontend</span></div>
+                <div className="pl-16"><span className="text-white/50">branch:</span> <span className="text-emerald-400">{"\"{{target}}\""}</span></div>
+                <div className="pl-12"><span className="text-[#ff6b35]">- name: backend</span></div>
+                <div className="pl-16"><span className="text-white/50">path: ~/projects/backend</span></div>
+                <div className="pl-16"><span className="text-white/50">branch:</span> <span className="text-emerald-400">{"\"{{target}}\""}</span> <span className="text-white/20"># falls back to main</span></div>
+                <div className="h-4" />
+                <div className="pl-8"><span className="text-[#f25c54]">steps:</span></div>
+                <div className="pl-12"><span className="text-[#f25c54]">- shell: git fetch origin</span></div>
+                <div className="pl-12"><span className="text-[#f25c54]">- shell: git checkout {"{{branch}}"}</span></div>
+                <div className="h-4" />
+                <div className="text-white/30"># Run it: sir run checkout-feature target=feature/payments</div>
+              </div>
+            </div>
+          </div>
+
+          {/* Result */}
+          <div className="mt-8 text-center">
+            <div className="inline-flex items-center gap-4 px-6 py-3 bg-white/[0.03] border border-white/[0.08] rounded-full">
+              <span className="text-sm text-white/50">Result:</span>
+              <code className="text-sm font-mono text-emerald-400">sir run checkout-feature target=feature/payments</code>
+            </div>
           </div>
         </div>
       </section>
