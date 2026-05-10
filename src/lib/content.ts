@@ -17,12 +17,12 @@ export interface SpecSummary {
   status: string;
 }
 
-export async function getAllDocs(): Promise<{ title: string; slug: string }[]> {
+export async function getAllDocs(): Promise<{ title: string; slug: string; excerpt: string }[]> {
   const docs = [
-    { title: 'README', slug: 'README' },
-    { title: 'Architecture', slug: 'architecture' },
-    { title: 'Development', slug: 'development' },
-    { title: 'Testing', slug: 'testing' },
+    { title: 'README', slug: 'README', excerpt: 'Welcome to sir.sh documentation! Get started with installation and quick start guides.' },
+    { title: 'Architecture', slug: 'architecture', excerpt: 'LayerResolver discovers .sir/ directories. ConfigLoader merges YAML/JSON config. Context manages variables with template resolution.' },
+    { title: 'Development', slug: 'development', excerpt: 'PHP 8.3 required. Clone repo, composer install. Run tests with pest. Create custom tasks implementing TaskInterface.' },
+    { title: 'Testing', slug: 'testing', excerpt: 'Unit tests in tests/Unit/, integration in tests/Feature/. Run with ./vendor/bin/pest' },
   ];
   return docs;
 }
