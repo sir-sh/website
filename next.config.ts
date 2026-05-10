@@ -1,7 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  // Specify the root directory for turbopack
+  // This ensures Next.js looks for app/ in the correct location
 };
 
 export default nextConfig;
