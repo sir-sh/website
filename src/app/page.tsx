@@ -70,8 +70,11 @@ export default function Home() {
       </section>
 
       {/* Features Section */}
-      <section id="features" className="relative py-32 bg-warm-ivory">
-        <div className="absolute inset-0 bg-gradient-to-b from-amber-50/30 via-transparent to-transparent pointer-events-none" />
+      <section id="features" className="relative py-32 bg-[#faf9f7]">
+        <div className="absolute inset-0" style={{
+          backgroundImage: `linear-gradient(rgba(201, 169, 98, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(201, 169, 98, 0.03) 1px, transparent 1px)`,
+          backgroundSize: '60px 60px',
+        }} />
         
         <div className="relative max-w-7xl mx-auto px-8">
           <div className="text-center mb-20">
@@ -82,59 +85,52 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[
               {
                 icon: '📁',
                 title: 'Layered Configuration',
                 description: 'Discovers .sir/ directories from cwd to root. Nearest layer takes precedence with global ~/.sir fallback.',
-                gradient: 'from-amber-400/15 to-orange-400/15'
               },
               {
                 icon: '📦',
                 title: 'Pack System',
                 description: 'Install workflow packs from Git repositories with github:owner/repo shorthand.',
-                gradient: 'from-emerald-400/15 to-teal-400/15'
               },
               {
                 icon: '⚙️',
                 title: 'Workflow Engine',
                 description: 'Define workflows in YAML with variables, templating, loops, conditionals. Dry-run support.',
-                gradient: 'from-blue-400/15 to-indigo-400/15'
               },
               {
                 icon: '🔧',
                 title: 'Built-in Tasks',
                 description: 'Common operations: git clone, file operations, test running, and more out of the box.',
-                gradient: 'from-purple-400/15 to-pink-400/15'
               },
               {
                 icon: '🔌',
                 title: 'Method System',
                 description: 'Extensible method definitions from packs with shell or exec implementations.',
-                gradient: 'from-rose-400/15 to-orange-400/15'
               },
               {
                 icon: '🤖',
                 title: 'AI Agent Interface',
                 description: 'MCP-style tool surface for AI assistants to discover and execute workflows safely.',
-                gradient: 'from-cyan-400/15 to-blue-400/15'
               }
             ].map((feature, i) => (
               <div
                 key={i}
-                className="luxury-card p-8 group cursor-pointer"
+                className="group relative p-8 bg-white border border-gray-100 rounded-sm hover:border-amber-200/50 transition-all duration-300"
                 style={{ animationDelay: `${i * 0.1}s` } as React.CSSProperties}
               >
-                <div className={`feature-icon bg-gradient-to-br ${feature.gradient} mb-6`}>
-                  {feature.icon}
-                </div>
-                <h3 className="text-xl font-medium text-gray-900 mb-3 group-hover:text-amber-700 transition-colors">
+                <div className="text-3xl mb-5">{feature.icon}</div>
+                <h3 className="text-lg font-medium text-gray-900 mb-3 group-hover:text-amber-700 transition-colors">
                   {feature.title}
                 </h3>
-                <p className="text-gray-500 font-light leading-relaxed">
+                <p className="text-sm text-gray-500 font-light leading-relaxed">
                   {feature.description}
                 </p>
+                <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-amber-400/0 to-transparent group-hover:via-amber-400/30 transition-all duration-500" />
               </div>
             ))}
           </div>
