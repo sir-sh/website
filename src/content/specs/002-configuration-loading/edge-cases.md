@@ -1,0 +1,16 @@
+# S002 Edge Cases
+
+| ID | Scenario | Expected Behavior |
+|----|----------|-------------------|
+| S002-EC-001 [P1] | Config file exists but is empty (0 bytes). | `loadConfig()` skips the file silently, logs a debug-level warning, and continues. Merged result is unaffected. |
+| S002-EC-002 [P1] | YAML file parses to a scalar value (e.g., the file contains only `null` or `hello: world`). | `loadConfig()` skips the file silently, logs a warning indicating the file parsed to a non-array value, and continues. |
+| S002-EC-003 [P1] | JSON file contains malformed JSON (e.g., `{invalid: json}`). | `loadConfig()` catches the exception, logs a warning with the error message, skips the file, and continues processing remaining layers. |
+| S002-EC-004 [P1] | Dot-notation path has an intermediate value that is not an array (e.g., `config` is scalar `'foo'` and the path is `config.nested.key`). | `get()` returns `$default` immediately without further traversal. No error is thrown. |
+| S002-EC-005 [P2] | Numeric-indexed arrays at the same key across two layers (e.g., global has `plugins: [a, b]` and project has `plugins: [c, d]`). | Both arrays are concatenated in merge order: `[a, b, c, d]`. Neither replaces the other. |
+| S002-EC-006 [P2] | Scalar value at a key in parent layer, array value at the same key in child layer (e.g., global has `timeout: 30` and project has `timeout: [30, 60]`). | Per `array_merge_recursive` scalar collision, both values become an array: `[30, 30, 60]` (parent scalar first, then child array elements). |
+| S002-EC-007 [P2] | Dot-notation key 5 or more levels deep (e.g., `a.b.c.d.e.f`). | `get()` traverses all 5+ levels. Returns `$default` if any segment is missing or non-array. No artificial limit is imposed. |
+| S002-EC-008 [P2] | An empty string is passed as the dot-notation key to `get()`. | `get()` returns `$default` immediately. An empty key is not a valid path. |
+| S002-EC-009 [P3] | A config key contains a literal dot character (e.g., YAML key is `"my.key": value` or JSON key is `"my.key"`). | No escaping mechanism exists in v1. The key `my.key` is treated as two segments `my` and `key`. If a single-segment key with a dot is required, behavior is undefined. This limitation may be addressed in a future spec. |
+| S002-EC-010 [P2] | A layer's `config.yml` file is readable but contains only comments and whitespace. | `Yaml::parseFile` returns `null` for such a file. The system treats this as a non-array parse result and skips the file per S002-FR-010. |
+| S002-EC-011 [P1] | A layer's `config.json` file contains `[]` (empty array) or `{}` (empty object). | `json_decode` returns an empty array or empty object (both are array type in PHP). The system accepts this as a valid array and merges it. Result is an empty contribution to the merged config. No error. |
+| S002-EC-012 [P2] | The layer resolver returns a path that is not readable (permission denied). | `loadConfig()` catches the exception, logs a warning, and continues to the next layer. The inaccessible layer contributes nothing. |

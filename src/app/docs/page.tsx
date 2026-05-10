@@ -1,7 +1,5 @@
 import Link from "next/link";
-import { getAllDocs } from "@/lib/docs";
-
-export const dynamic = 'force-dynamic';
+import { getAllDocs } from "@/lib/content";
 
 export default async function DocsPage() {
   const docs = await getAllDocs();
@@ -9,11 +7,11 @@ export default async function DocsPage() {
   const docCategories = [
     {
       title: "Getting Started",
-      items: docs.filter(d => ['README.md'].includes(d.slug)),
+      items: docs.filter(d => ['README'].includes(d.slug)),
     },
     {
       title: "Core Guides",
-      items: docs.filter(d => ['architecture.md', 'development.md', 'testing.md'].includes(d.slug)),
+      items: docs.filter(d => ['architecture', 'development', 'testing'].includes(d.slug)),
     },
   ];
 

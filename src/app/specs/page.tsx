@@ -1,7 +1,5 @@
 import Link from "next/link";
-import { getAllSpecs } from "@/lib/specs";
-
-export const dynamic = 'force-dynamic';
+import { getAllSpecs } from "@/lib/content";
 
 export default async function SpecsPage() {
   const specs = await getAllSpecs();
@@ -24,7 +22,7 @@ export default async function SpecsPage() {
         </div>
 
         <div className="grid gap-4">
-          {specs.map((spec, i) => (
+          {specs.map((spec) => (
             <Link
               key={spec.id}
               href={`/specs/${spec.slug}`}
@@ -40,7 +38,7 @@ export default async function SpecsPage() {
                       {spec.name}
                     </h3>
                     <p className="text-sm text-gray-500 mt-1">
-                      Spec {i + 1} of {specs.length}
+                      Spec {parseInt(spec.id.replace('S', ''))} of {specs.length}
                     </p>
                   </div>
                 </div>
@@ -55,7 +53,7 @@ export default async function SpecsPage() {
         <div className="mt-12 p-6 rounded-xl bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-800">
           <h3 className="font-semibold mb-2">About Spec-Kit</h3>
           <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-            These specifications follow the Spec-Kit methodology with functional requirements, acceptance scenarios, edge cases, and success criteria.
+            These specifications follow the Spec-Kit methodology with functional requirements, acceptance scenarios, and edge cases.
           </p>
           <a
             href="https://github.com/sir-sh/specs"

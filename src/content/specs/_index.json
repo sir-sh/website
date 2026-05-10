@@ -1,0 +1,92 @@
+[
+  {
+    "id": "S001",
+    "name": "Layer Resolution System |",
+    "slug": "001-layer-resolution",
+    "status": "Implemented"
+  },
+  {
+    "id": "S002",
+    "name": "Configuration Loading |",
+    "slug": "002-configuration-loading",
+    "status": "Implemented"
+  },
+  {
+    "id": "S003",
+    "name": "Workflow Engine |",
+    "slug": "003-workflow-engine",
+    "status": "Implemented"
+  },
+  {
+    "id": "S004",
+    "name": "Template expression resolution in workflow YAML values |",
+    "slug": "004-template-system",
+    "status": "Implemented"
+  },
+  {
+    "id": "S005",
+    "name": "Pack System |",
+    "slug": "005-pack-system",
+    "status": "Implemented"
+  },
+  {
+    "id": "S006",
+    "name": "Method System |",
+    "slug": "006-method-system",
+    "status": "Implemented"
+  },
+  {
+    "id": "S007",
+    "name": "Built-in Tasks |",
+    "slug": "007-built-in-tasks",
+    "status": "Implemented"
+  },
+  {
+    "id": "S008",
+    "name": "AI Agent Interface |",
+    "slug": "008-ai-agent-interface",
+    "status": "Implemented"
+  },
+  {
+    "id": "S009",
+    "name": "CLI Commands Surface |",
+    "slug": "009-cli-commands",
+    "status": "Implemented"
+  },
+  {
+    "id": "S010",
+    "name": "Conditional Step Execution |",
+    "slug": "010-conditional-logic",
+    "status": "Implemented"
+  },
+  {
+    "id": "S011",
+    "name": "Loop Constructs |",
+    "slug": "011-loop-constructs",
+    "status": "Partial"
+  },
+  {
+    "id": "S012",
+    "name": "Nested Property Access in Templates |",
+    "slug": "012-nested-properties",
+    "status": "Implemented"
+  },
+  {
+    "id": "S013",
+    "name": "Pack Update Functionality |",
+    "slug": "013-pack-updates",
+    "status": "Implemented"
+  },
+  {
+    "id": "S014",
+    "name": "Remote Execution |",
+    "slug": "014-remote-execution",
+    "status": "Future"
+  },
+  {
+    "id": "S015",
+    "name": "Workflow Scheduling |",
+    "slug": "015-workflow-scheduling",
+    "status": "Future"
+  }
+]

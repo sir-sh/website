@@ -1,8 +1,6 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { getSpec, getAllSpecs, parseSpecMarkdown } from "@/lib/specs";
-
-export const dynamic = 'force-dynamic';
+import { getSpec, getAllSpecs } from "@/lib/content";
 
 interface PageProps {
   params: Promise<{ slug: string[] }>;
@@ -11,7 +9,7 @@ interface PageProps {
 export async function generateStaticParams() {
   const specs = await getAllSpecs();
   return specs.map((spec) => ({
-    slug: spec.slug.split('/'),
+    slug: [spec.slug],
   }));
 }
 
@@ -35,14 +33,12 @@ export default async function SpecDetailPage({ params }: PageProps) {
   return (
     <div className="flex-1 py-12">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Breadcrumb */}
         <nav className="mb-8 flex items-center gap-2 text-sm text-gray-500">
           <Link href="/specs" className="hover:text-gray-700">Specs</Link>
           <span>/</span>
           <span className="text-gray-900 dark:text-gray-300">{spec.id}</span>
         </nav>
 
-        {/* Header */}
         <div className="mb-8 pb-8 border-b border-gray-200 dark:border-gray-800">
           <div className="flex items-start gap-4 mb-4">
             <div className="w-16 h-16 rounded-xl bg-gray-100 dark:bg-gray-800 flex items-center justify-center font-mono text-xl text-gray-600 dark:text-gray-400">
@@ -64,9 +60,7 @@ export default async function SpecDetailPage({ params }: PageProps) {
           )}
         </div>
 
-        {/* Requirements Sections */}
         <div className="space-y-12">
-          {/* Functional Requirements */}
           {spec.functionalRequirements.length > 0 && (
             <section>
               <h2 className="text-xl font-semibold mb-4 pb-2 border-b border-gray-200 dark:border-gray-800">
@@ -82,7 +76,6 @@ export default async function SpecDetailPage({ params }: PageProps) {
             </section>
           )}
 
-          {/* Acceptance Scenarios */}
           {spec.acceptanceScenarios.length > 0 && (
             <section>
               <h2 className="text-xl font-semibold mb-4 pb-2 border-b border-gray-200 dark:border-gray-800">
@@ -98,7 +91,6 @@ export default async function SpecDetailPage({ params }: PageProps) {
             </section>
           )}
 
-          {/* Edge Cases */}
           {spec.edgeCases.length > 0 && (
             <section>
               <h2 className="text-xl font-semibold mb-4 pb-2 border-b border-gray-200 dark:border-gray-800">
@@ -115,7 +107,6 @@ export default async function SpecDetailPage({ params }: PageProps) {
           )}
         </div>
 
-        {/* Navigation */}
         <div className="mt-12 pt-8 border-t border-gray-200 dark:border-gray-800 flex justify-between">
           {currentIndex > 0 ? (
             <Link

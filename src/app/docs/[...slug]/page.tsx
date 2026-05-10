@@ -1,8 +1,6 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { getDocFile, getAllDocs, parseMarkdown } from "@/lib/docs";
-
-export const dynamic = 'force-dynamic';
+import { getDocFile, getAllDocs, parseMarkdown } from "@/lib/content";
 
 interface PageProps {
   params: Promise<{ slug: string[] }>;
@@ -11,14 +9,13 @@ interface PageProps {
 export async function generateStaticParams() {
   const docs = await getAllDocs();
   return docs.map((doc) => ({
-    slug: doc.slug.replace('.md', '').split('/'),
+    slug: [doc.slug],
   }));
 }
 
 export default async function DocPage({ params }: PageProps) {
   const { slug } = await params;
-  const slugString = slug.join('/');
-  const doc = await getDocFile([...slug]);
+  const doc = await getDocFile(slug);
 
   if (!doc) {
     notFound();
@@ -26,12 +23,11 @@ export default async function DocPage({ params }: PageProps) {
 
   const htmlContent = parseMarkdown(doc.content);
   const docs = await getAllDocs();
-  const currentIndex = docs.findIndex(d => d.slug === slugString + '.md' || d.slug === slugString);
+  const currentIndex = docs.findIndex(d => d.slug === slug.join('/'));
 
   return (
     <div className="flex-1 py-12">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Breadcrumb */}
         <nav className="mb-8 flex items-center gap-2 text-sm text-gray-500">
           <Link href="/docs" className="hover:text-gray-700">Docs</Link>
           <span>/</span>
@@ -43,11 +39,10 @@ export default async function DocPage({ params }: PageProps) {
           dangerouslySetInnerHTML={{ __html: htmlContent }}
         />
 
-        {/* Navigation */}
         <div className="mt-12 pt-8 border-t border-gray-200 dark:border-gray-800 flex justify-between">
           {currentIndex > 0 ? (
             <Link
-              href={`/docs/${docs[currentIndex - 1].slug.replace('.md', '')}`}
+              href={`/docs/${docs[currentIndex - 1].slug}`}
               className="text-blue-600 hover:underline"
             >
               ← {docs[currentIndex - 1].title}
@@ -55,7 +50,7 @@ export default async function DocPage({ params }: PageProps) {
           ) : <div />}
           {currentIndex < docs.length - 1 ? (
             <Link
-              href={`/docs/${docs[currentIndex + 1].slug.replace('.md', '')}`}
+              href={`/docs/${docs[currentIndex + 1].slug}`}
               className="text-blue-600 hover:underline"
             >
               {docs[currentIndex + 1].title} →
