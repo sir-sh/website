@@ -142,18 +142,50 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Workflow examples */}
-      <section className="relative py-32 px-8 bg-gray-50">
+      {/* Workflow comparison - Before/After */}
+      <section className="relative py-24 px-8 bg-gray-50">
         <div className="max-w-5xl mx-auto">
-          <p className="text-sm font-medium text-[#635bff] uppercase tracking-widest mb-8">What it looks like</p>
+          <div className="text-center mb-12">
+            <p className="text-sm font-medium text-[#635bff] uppercase tracking-widest mb-4">The difference</p>
+            <h2 className="text-3xl font-semibold text-gray-900">Before vs After</h2>
+          </div>
 
-          <div className="space-y-4">
-            {workflows.map((wf, i) => (
-              <div key={i} className="group flex items-start gap-6 p-6 bg-white border border-gray-100 rounded-lg hover:border-[#635bff]/20 hover:shadow-md transition-all">
-                <code className="text-sm text-[#635bff] font-mono whitespace-nowrap group-hover:text-[#5252ce] transition-colors">{wf.cmd}</code>
-                <span className="text-sm text-gray-500">{wf.desc}</span>
+          <div className="grid md:grid-cols-2 gap-8">
+            {/* Before */}
+            <div className="p-8 bg-white border border-gray-200 rounded-xl">
+              <div className="text-sm font-medium text-gray-400 mb-6 uppercase tracking-wider">Without sir.sh</div>
+              <div className="space-y-6">
+                {[
+                  { before: 'git checkout frontend && git checkout backend && git checkout api', after: '4 commands, 3 repos' },
+                  { before: 'docker ps -aq --filter status=exited | xargs docker rm', after: '1 cryptic command' },
+                  { before: 'cd svc1 && npm test && cd ../svc2 && npm test && ...', after: 'Manual, sequential, slow' },
+                  { before: 'Copy .env.example to .env, edit manually', after: 'Error-prone, tedious' },
+                ].map((item, i) => (
+                  <div key={i} className="flex items-start gap-4">
+                    <code className="text-xs font-mono text-gray-400 bg-gray-50 px-3 py-2 rounded flex-1">{item.before}</code>
+                    <span className="text-xs text-gray-400">→ {item.after}</span>
+                  </div>
+                ))}
               </div>
-            ))}
+            </div>
+
+            {/* After */}
+            <div className="p-8 bg-[#635bff]/5 border border-[#635bff]/20 rounded-xl">
+              <div className="text-sm font-medium text-[#635bff] mb-6 uppercase tracking-wider">With sir.sh</div>
+              <div className="space-y-6">
+                {[
+                  { cmd: 'sir run checkout feature/payments', after: 'One command, all repos' },
+                  { cmd: 'sir run docker-clean', after: 'One command, done' },
+                  { cmd: 'sir run test-all', after: 'Parallel, with report' },
+                  { cmd: 'sir run sync-env', after: 'One command, synced' },
+                ].map((item, i) => (
+                  <div key={i} className="flex items-start gap-4">
+                    <code className="text-sm font-mono text-[#635bff] bg-white px-3 py-2 rounded flex-1 shadow-sm">{item.cmd}</code>
+                    <span className="text-sm text-[#635bff] font-medium">→ {item.after}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </section>
