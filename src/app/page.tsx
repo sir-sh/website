@@ -146,20 +146,23 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Workflow examples */}
-      <section className="relative py-32 px-8 bg-[#0a0a0f]">
-        <div className="max-w-5xl mx-auto">
-          <p className="text-sm text-[#c9a962]/50 mb-8 tracking-widest uppercase">What it looks like</p>
-
-          <div className="space-y-4">
-            {workflows.map((wf, i) => (
-              <div key={i} className="group flex items-start gap-6 p-6 bg-[#0f0f15]/60 border border-[#1e1e2a] rounded-sm hover:border-[#c9a962]/20 hover:bg-[#12121a] transition-all">
-                <code className="text-sm text-emerald-400/80 font-mono whitespace-nowrap group-hover:text-emerald-400 transition-colors">{wf.cmd}</code>
-                <span className="text-sm text-[#666677]">{wf.desc}</span>
-              </div>
-            ))}
-          </div>
+      {/* Workflow ticker - horizontal scroll */}
+      <section className="relative py-20 overflow-hidden bg-[#0a0a0f] border-y border-[#1e1e2a]">
+        <div className="flex animate-[scroll_20s_linear_infinite]">
+          {[...workflows, ...workflows, ...workflows].map((wf, i) => (
+            <div key={i} className="flex items-center gap-4 px-8 whitespace-nowrap">
+              <code className="text-sm font-mono text-[#c9a962]">{wf.cmd}</code>
+              <span className="w-1 h-1 rounded-full bg-[#3a3a4a]" />
+              <span className="text-sm text-[#666677]">{wf.desc}</span>
+            </div>
+          ))}
         </div>
+        <style>{`
+          @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-33.333%); }
+          }
+        `}</style>
       </section>
 
       {/* Features */}
