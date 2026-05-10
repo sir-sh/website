@@ -1,69 +1,81 @@
 import Link from "next/link";
 import { getAllSpecs } from "@/lib/content";
+import { HeroVisual } from "@/components/luxury/AmbientBackground";
 
 export default async function SpecsPage() {
   const specs = await getAllSpecs();
 
   const statusColors: Record<string, string> = {
-    'Implemented': 'bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300',
-    'Partial': 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900 dark:text-yellow-300',
-    'Future': 'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400',
-    'Draft': 'bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300',
+    'Implemented': 'status-implemented',
+    'Partial': 'status-partial',
+    'Future': 'status-future',
+    'Draft': 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300',
   };
 
   return (
-    <div className="flex-1 py-16">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="mb-12">
-          <h1 className="text-4xl font-bold mb-3">Specifications</h1>
-          <p className="text-gray-600 dark:text-gray-400 text-lg">
+    <div className="relative">
+      <HeroVisual variant="light" />
+      
+      <div className="relative py-32 max-w-6xl mx-auto px-8">
+        <div className="mb-16 animate-fade-in">
+          <span className="text-caption text-amber-600 mb-4 block">Specifications</span>
+          <h1 className="text-headline text-gray-900 mb-4">Specs</h1>
+          <p className="text-xl text-gray-500 font-light">
             15 specifications covering all aspects of sir.sh
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 mb-12">
-          {specs.map((spec) => (
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
+          {specs.map((spec, i) => (
             <Link
               key={spec.id}
               href={`/specs/${spec.slug}`}
-              className="block p-6 rounded-xl border border-gray-200 dark:border-gray-800 hover:border-blue-400 dark:hover:border-blue-600 transition group"
+              className="luxury-card p-8 group animate-fade-in-up"
+              style={{ animationDelay: `${i * 0.05}s` }}
             >
-              <div className="flex items-start gap-4 mb-3">
-                <div className="w-10 h-10 rounded-lg bg-gray-100 dark:bg-gray-800 flex items-center justify-center font-mono text-sm text-gray-600 dark:text-gray-400">
+              <div className="flex items-start gap-5 mb-4">
+                <div className="spec-badge group-hover:bg-amber-100 group-hover:border-amber-300 group-hover:text-amber-700 transition-all">
                   {spec.id}
                 </div>
-                <div>
-                  <h3 className="font-semibold group-hover:text-blue-600 dark:group-hover:text-blue-400 transition">
+                <div className="flex-1 min-w-0">
+                  <h3 className="font-medium text-gray-900 group-hover:text-amber-700 transition-colors truncate">
                     {spec.name}
                   </h3>
-                  <p className="text-xs text-gray-500 mt-0.5">
-                    Spec {parseInt(spec.id.replace('S', ''))} of {specs.length}
+                  <p className="text-xs text-gray-500 mt-1">
+                    {parseInt(spec.id.replace('S', ''))} of {specs.length}
                   </p>
                 </div>
               </div>
-              <span className={`inline-block px-2 py-0.5 rounded text-xs font-medium ${statusColors[spec.status] || statusColors['Draft']}`}>
+              <span className={statusColors[spec.status] || 'status-future'}>
                 {spec.status}
               </span>
             </Link>
           ))}
         </div>
 
-        <div className="p-8 rounded-2xl bg-gradient-to-br from-blue-50 to-purple-50 dark:from-gray-900 dark:to-gray-800 border border-gray-200 dark:border-gray-700">
-          <h3 className="font-semibold mb-2">About Spec-Kit</h3>
-          <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-            These specifications follow the Spec-Kit methodology with functional requirements, acceptance scenarios, and edge cases.
-          </p>
-          <a
-            href="https://github.com/sir-sh/specs"
-            target="_blank"
-            rel="noopener"
-            className="inline-flex items-center gap-2 text-blue-600 hover:underline text-sm font-medium"
-          >
-            View specs on GitHub
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-            </svg>
-          </a>
+        <div className="luxury-card p-10 animate-fade-in-up" style={{ animationDelay: '0.8s' }}>
+          <div className="flex items-start gap-6">
+            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-400/20 to-teal-400/20 flex items-center justify-center text-xl flex-shrink-0">
+              📐
+            </div>
+            <div>
+              <h3 className="text-lg font-light text-gray-900 mb-2">About Spec-Kit</h3>
+              <p className="text-gray-500 font-light mb-4">
+                These specifications follow the Spec-Kit methodology with functional requirements, acceptance scenarios, and edge cases.
+              </p>
+              <a
+                href="https://github.com/sir-sh/specs"
+                target="_blank"
+                rel="noopener"
+                className="inline-flex items-center gap-2 text-amber-600 hover:text-amber-700 text-sm font-medium transition-colors"
+              >
+                View specs on GitHub
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                </svg>
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </div>
