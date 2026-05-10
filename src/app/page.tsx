@@ -188,33 +188,21 @@ export default function Home() {
               </div>
             </div>
             
-            {/* Terminal block */}
+            {/* Stats block instead of terminal */}
             <div className="relative">
-              <div className="absolute -inset-4 bg-gradient-to-br from-[#c9a962]/5 via-transparent to-[#1a1a2e]/5 rounded-sm blur-xl" />
-              <div className="relative bg-[#0f0f15] border border-[#1e1e2a] rounded-sm p-8">
-                <div className="flex items-center gap-3 mb-8">
-                  <div className="w-3 h-3 rounded-full bg-[#c9a962]/20" />
-                  <div className="w-3 h-3 rounded-full bg-[#c9a962]/20" />
-                  <div className="w-3 h-3 rounded-full bg-[#c9a962]/20" />
-                  <span className="ml-3 text-sm text-[#555566] font-mono">sir.sh</span>
-                </div>
-                <pre className="font-mono text-sm">
-                  <span className="text-[#c9a962]">$</span> <span className="text-white">sir run deploy</span>
-                  <span className="block mt-4 text-[#444455]">⚡ sir.sh v0.9.x</span>
-                  <span className="block mt-3 text-[#333344]">📁 Resolved layers:</span>
-                  <span className="block ml-4 text-[#555566]">1. /project/.sir</span>
-                  <span className="block text-[#555566]">2. ~/.sir</span>
-                  <span className="block mt-4 text-[#888899]">▶ Running workflow: deploy</span>
-                  <span className="block ml-4 mt-4 text-[#555566]">[1/3] Shell: echo "Building..."</span>
-                  <span className="block ml-8 text-[#c9a962]">✓ Done in 0.2s</span>
-                  <span className="block ml-4 mt-2 text-[#555566]">[2/3] Task: git.clone</span>
-                  <span className="block ml-8 text-[#c9a962]">✓ Cloned repo in 1.1s</span>
-                  <span className="block ml-4 mt-2 text-[#555566]">[3/3] Task: tests.auto</span>
-                  <span className="block ml-8 text-[#c9a962]">✓ 42 tests passed</span>
-                  <span className="block mt-6">
-                    <span className="text-[#c9a962]">✓</span> <span className="text-white">Workflow complete in 4.2s</span>
-                  </span>
-                </pre>
+              <div className="grid grid-cols-2 gap-5">
+                {[
+                  { stat: '3KB', label: 'Binary size', sub: 'PHAR, zero deps' },
+                  { stat: '412', label: 'Tests', sub: 'All passing' },
+                  { stat: '15', label: 'Specs', sub: 'Full coverage' },
+                  { stat: '15ms', label: 'Cold start', sub: 'Laravel Zero' },
+                ].map((item, i) => (
+                  <div key={i} className="p-6 bg-[#0f0f15]/60 border border-[#1e1e2a] rounded-sm">
+                    <div className="text-2xl font-bold text-[#c9a962] mb-1">{item.stat}</div>
+                    <div className="text-sm text-white/80 font-medium mb-0.5">{item.label}</div>
+                    <div className="text-xs text-[#666677]">{item.sub}</div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
