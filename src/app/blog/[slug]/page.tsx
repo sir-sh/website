@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { getPostBySlug, getAllPosts } from '@/lib/blog';
+import { HeroVisual } from '@/components/luxury/AmbientBackground';
 import type { Metadata } from 'next';
 
 interface Props {
@@ -28,36 +29,44 @@ export default async function BlogPostPage({ params }: Props) {
 
   if (!post) {
     return (
-      <div className="flex-1 py-12">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-2xl font-bold mb-4">Post not found</h1>
-          <Link href="/blog" className="text-blue-600 hover:underline">← Back to blog</Link>
-        </div>
+      <div className="relative py-32 text-center">
+        <h1 className="text-headline text-gray-900 mb-4">Post not found</h1>
+        <Link href="/blog" className="text-amber-600 hover:underline">← Back to blog</Link>
       </div>
     );
   }
 
   return (
-    <div className="flex-1 py-12">
-      <article className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <Link href="/blog" className="text-sm text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 mb-8 inline-block">
-          ← Back to blog
+    <div className="relative">
+      <HeroVisual variant="light" />
+      
+      <article className="relative py-32 max-w-3xl mx-auto px-8">
+        <Link 
+          href="/blog" 
+          className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-amber-600 mb-12 transition-colors"
+        >
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 19l-7-7 7-7" />
+          </svg>
+          Back to blog
         </Link>
 
-        <header className="mb-12">
-          <div className="text-sm text-gray-500 mb-3">
-            <time>{new Date(post.date).toLocaleDateString('en-US', {
-              year: 'numeric',
-              month: 'long',
-              day: 'numeric',
-            })}</time>
+        <header className="mb-16 animate-fade-in">
+          <div className="text-sm text-gray-500 mb-4">
+            <time className="text-caption">
+              {new Date(post.date).toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+              })}
+            </time>
           </div>
-          <h1 className="text-4xl font-bold mb-6">{post.title}</h1>
-          <p className="text-xl text-gray-600 dark:text-gray-400">{post.excerpt}</p>
+          <h1 className="text-headline text-gray-900 mb-6">{post.title}</h1>
+          <p className="text-xl text-gray-500 font-light leading-relaxed">{post.excerpt}</p>
         </header>
 
-        <div
-          className="prose prose-gray dark:prose-invert max-w-none"
+        <div 
+          className="prose-luxury animate-fade-in-up"
           dangerouslySetInnerHTML={{ __html: post.content }}
         />
       </article>
