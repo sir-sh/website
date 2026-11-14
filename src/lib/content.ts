@@ -1,8 +1,8 @@
 const fs = require('fs');
 const path = require('path');
 
-const docsDir = path.join(__dirname, '../src/content/docs');
-const specsDir = path.join(__dirname, '../src/content/specs');
+const docsDir = path.join(process.cwd(), 'src/content/docs');
+const specsDir = path.join(process.cwd(), 'src/content/specs');
 
 export interface DocSection {
   title: string;
