@@ -3,7 +3,7 @@
 const DOCS_REPO = 'sir-sh/docs';
 const SPECS_REPO = 'sir-sh/specs';
 const BRANCH = 'main';
-const QUICKSTART_REF = 'ffb9ccc384c13a1edf2de305bd587fba4cd91c10';
+const QUICKSTART_REF = '06d583fdbae15e20f64989572df2e8526cc5f1a6';
 const fs = require('fs');
 const path = require('path');
 

@@ -7,7 +7,7 @@ Requires PHP 8.2 or later, Composer, and Git.
 On Linux or macOS, clone into a directory where you can keep the checkout.
 
 ```sh
-git clone --branch v0.4.0 https://github.com/sir-sh/cli.git
+git clone --branch v0.5.0 https://github.com/sir-sh/cli.git
 cd cli
 composer install --no-dev --no-interaction
 mkdir -p "$HOME/.local/bin"
@@ -102,8 +102,8 @@ metadata.
 
 ## Connect an MCP client
 
-Sir v0.4.0 can expose workflow discovery, inspection, and preview to a local
-MCP client. The stdio server starts discovery at the directory passed to
+Sir v0.5.0 exposes workflow discovery, inspection, preview, and run requests
+to a local MCP client. The stdio server starts discovery at the directory passed to
 `--project-dir` and also searches ancestor and global Sir layers. Use an
 absolute project path when configuring a client.
 
@@ -115,7 +115,7 @@ SIR_BIN="$(command -v sir)"
 SIR_PROJECT="$PWD"
 
 sir_inspect() {
-    npx -y @modelcontextprotocol/inspector@2.15.0 --cli \
+    npx -y @modelcontextprotocol/inspector@2.15.0 --cli --quiet \
         --method "$@" -- "$SIR_BIN" mcp:serve --project-dir="$SIR_PROJECT"
 }
 
@@ -125,8 +125,8 @@ sir_inspect tools/call --tool-name show_workflow --tool-arg name=project-setup
 sir_inspect tools/call --tool-name preview_workflow --tool-arg name=project-setup
 ```
 
-The first command should list exactly `list_workflows`, `show_workflow`, and
-`preview_workflow`. The second lists workflows, including the three registry
+The first command lists `list_workflows`, `show_workflow`,
+`preview_workflow`, and `request_workflow_run`. The second lists workflows, including the three registry
 examples installed above. For another stdio client, set its command to the
 absolute path printed by `command -v sir` and its arguments to
 `["mcp:serve", "--project-dir=/absolute/path/to/project"]`.
@@ -137,3 +137,47 @@ arguments and named `name=value` assignments. Missing or invalid workflow
 inputs return `invalid_inputs`. Preview reports static conditions and loop
 counts and marks templated expressions as `unresolved`. It omits supplied
 values and step arguments and leaves the project untouched.
+
+## Approve a workflow requested by an MCP client
+
+On Linux or macOS, install the `hello` workflow from the pinned registry checkout
+used above. Choose an empty project directory for the example.
+
+```sh
+cp sir-workflows/workflows/hello/hello.yml "$HOME/.sir/workflows/"
+SIR_APPROVAL_DEMO="$(mktemp -d)"
+cd "$SIR_APPROVAL_DEMO"
+SIR_PROJECT="$PWD"
+
+sir_inspect tools/call --tool-name request_workflow_run \
+    --tool-args-json '{"name":"hello","inputs":["name=Taylor"]}'
+test ! -e greeting.txt
+```
+
+The MCP result includes `requestId`, `expiresIn` (600 seconds), and a preview
+without input values. Replace `REQUEST_ID` with the returned ID and run this
+command in your terminal.
+
+```sh
+sir approve REQUEST_ID
+```
+
+Review the project, workflow path, SHA-256 revision, step definitions, method
+definitions, and inputs. Values declared with `sensitive: true` are redacted.
+Type `approve` to execute. Any other response declines the request. Sir runs
+from the project directory the MCP server recorded, even if you invoke
+`sir approve` from another directory. Check the approved result with
+`cat greeting.txt`. It should contain `Hello, Taylor!`.
+
+Approval applies once to the same YAML definition, project directory identity,
+resolved method definitions, and recorded inputs. If Sir detects a change,
+make a new request. A pipe, `--no-interaction`, and an expired, declined, or
+already claimed request cannot start a run.
+
+Requests are kept in `~/.sir/pending-runs/` with owner-only permissions. The
+files include the input values needed for execution and are removed when
+claimed or declined. Sir clears expired requests on access and when new requests
+arrive. Workflow commands run with your account's permissions and may use
+programs and other files from your environment. Read workflow and method
+definitions before approving. The approval command reports success or failure
+and keeps shell and method output out of the terminal.
