@@ -1,5 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import MarkdownIt from 'markdown-it';
 
 const docsDir = path.join(process.cwd(), 'src/content/docs');
 const specsDir = path.join(process.cwd(), 'src/content/specs');
@@ -116,16 +117,10 @@ function extractList(content: string, prefix: string): string[] {
   return Array.from(matches, (m) => `${m[1]}: ${m[2]}`);
 }
 
+const markdown = new MarkdownIt();
+markdown.renderer.rules.table_open = () => '<div class="table-scroll"><table>';
+markdown.renderer.rules.table_close = () => '</table></div>';
+
 export function parseMarkdown(content: string): string {
-  return content
-    .replace(/^#\s+(.+)$/gm, '<h1 class="text-3xl font-bold mb-4">$1</h1>')
-    .replace(/^##\s+(.+)$/gm, '<h2 class="text-2xl font-semibold mb-3 mt-6">$1</h2>')
-    .replace(/^###\s+(S\d+-FR-\d+)\s+\[P\d+\]\s+(.+)$/gm, '<h3 id="$1" class="text-lg font-medium mb-2 mt-4 text-blue-600">$1: $2</h3>')
-    .replace(/^###\s+(S\d+-AS-\d+)\s+\[P\d+\]\s+(.+)$/gm, '<h3 id="$1" class="text-lg font-medium mb-2 mt-4 text-green-600">$1: $2</h3>')
-    .replace(/^###\s+(S\d+-EC-\d+)\s+\[P\d+\]\s+(.+)$/gm, '<h3 id="$1" class="text-lg font-medium mb-2 mt-4 text-orange-600">$1: $2</h3>')
-    .replace(/```(\w+)?\n([\s\S]*?)```/g, '<pre class="bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto my-4"><code>$2</code></pre>')
-    .replace(/`([^`]+)`/g, '<code class="bg-gray-100 px-1 py-0.5 rounded text-sm">$1</code>')
-    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" class="text-blue-600 hover:underline">$1</a>')
-    .replace(/\| Status \|/g, '| Status |')
-    .replace(/\n\n/g, '</p><p class="mb-4">');
+  return markdown.render(content);
 }

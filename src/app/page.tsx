@@ -12,17 +12,6 @@ export const metadata: Metadata = {
 const github = 'https://github.com/sir-sh/cli';
 const registry = 'https://github.com/sir-sh/workflows';
 
-function NavigationLinks({ footer = false }: { footer?: boolean }) {
-  return (
-    <>
-      {footer && <Link href="/docs"><span aria-hidden="true">▤</span> Docs</Link>}
-      <Link href={registry}>{footer && <span aria-hidden="true">▱</span>}Workflows</Link>
-      {!footer && <Link href="/docs">Docs</Link>}
-      <Link href={github}>GitHub</Link>
-    </>
-  );
-}
-
 function Divider() {
   return (
     <div className={styles.divider} aria-hidden="true">
@@ -50,72 +39,56 @@ const commands = [
 
 export default function Home() {
   return (
-    <div className={styles.paper}>
-      <div className={styles.frame}>
-        <header className={styles.header}>
-          <Link href="/" className={styles.wordmark}>sir.sh</Link>
-          <nav className={styles.desktopNav} aria-label="Main navigation"><NavigationLinks /></nav>
-          <details className={styles.mobileNav}>
-            <summary>☰ Menu</summary>
-            <nav aria-label="Mobile navigation"><NavigationLinks /></nav>
-          </details>
-        </header>
-        <main>
-          <section className={styles.hero}>
-            <Artwork name="hero-v2" priority />
-            <div>
-              <h1>Your Command Butler <span>for Local Workflows.</span></h1>
-              <p>Run and review workflows on your computer, with explicit approvals where required and a personal dashboard on the roadmap.</p>
-              <code className={styles.command} aria-label="Example: sir run hello"><span>$</span> sir run hello</code>
-              <Link href={github} className={styles.gold}>Get started <span aria-hidden="true">→</span></Link>
-            </div>
-          </section>
-          <Divider />
-          <DashboardPreview />
-          <Divider />
-          <section className={styles.feature} id="features">
-            <Artwork name="registry" />
-            <div>
-              <h2>Discover <span className={styles.desktopCopy}>&amp; Install </span>Workflows</h2>
-              <p>Find workflows in the registry and install them to run locally.</p>
-              <Link href={registry} className={styles.ink}><span aria-hidden="true">⬡</span> Browse Registry <span aria-hidden="true">→</span></Link>
-            </div>
-          </section>
-          <section className={styles.feature}>
-            <div className={styles.terminalArt}><Artwork name="terminal" /><span aria-hidden="true">$ _</span></div>
-            <div>
-              <h2>Quickstart with Simple Commands</h2>
-              <p><Link href="/docs/QUICKSTART">Install Sir and run your first workflow</Link>.</p>
-              <ul className={styles.commands}>
-                {commands.map(({ command, description, planned }) => (
-                  <li key={command} className={command.includes("please") ? styles.courtesy : undefined}><code className={styles.command}><span>$</span> {command}{planned && <small className={styles.badge}>Planned</small>}</code>
-                    <span className={styles.commandHelp}>{description}</span></li>
-                ))}
-              </ul>
-            </div>
-          </section>
-          <section className={styles.feature}>
-            <Artwork name="microphone" />
-            <div>
-              <h2>Ask Sir by Voice or Chat <small className={styles.badge}>Planned</small></h2>
-              <p>Request workflows and check run status by chat. Connect your own speech provider key for optional real-time voice.</p>
-              <ul className={styles.capabilities}><li><span aria-hidden="true">♩</span> Voice requests</li><li><span aria-hidden="true">☏</span> Chat &amp; run status</li></ul>
-            </div>
-          </section>
-          <section className={styles.closing}>
-            <Artwork name="closing" />
-            <div>
-              <h2>Get Started with sir.sh</h2>
-              <p>Bring a command butler to your computer. Install Sir and run your first local workflow.</p>
-              <Link href={github} className={styles.gold}>Get started <span aria-hidden="true">→</span></Link>
-            </div>
-          </section>
-        </main>
-        <footer className={styles.footer}>
-          <Link href="/" className={styles.wordmark}>sir.sh</Link>
-          <nav aria-label="Footer navigation"><NavigationLinks footer /></nav>
-        </footer>
-      </div>
+    <div className={styles.home}>
+      <section className={styles.hero}>
+        <Artwork name="hero-v2" priority />
+        <div>
+          <h1>Your Command Butler <span>for Local Workflows.</span></h1>
+          <p>Run and review workflows on your computer, with explicit approvals where required and a personal dashboard on the roadmap.</p>
+          <code className={styles.command} aria-label="Example: sir run hello"><span>$</span> sir run hello</code>
+          <Link href={github} className={styles.gold}>Get started <span aria-hidden="true">→</span></Link>
+        </div>
+      </section>
+      <Divider />
+      <DashboardPreview />
+      <Divider />
+      <section className={styles.feature} id="features">
+        <Artwork name="registry" />
+        <div>
+          <h2>Discover <span className={styles.desktopCopy}>&amp; Install </span>Workflows</h2>
+          <p>Find workflows in the registry and install them to run locally.</p>
+          <Link href={registry} className={styles.ink}><span aria-hidden="true">⬡</span> Browse Registry <span aria-hidden="true">→</span></Link>
+        </div>
+      </section>
+      <section className={styles.feature}>
+        <div className={styles.terminalArt}><Artwork name="terminal" /><span aria-hidden="true">$ _</span></div>
+        <div>
+          <h2>Quickstart with Simple Commands</h2>
+          <p><Link href="/docs/QUICKSTART">Install Sir and run your first workflow</Link>.</p>
+          <ul className={styles.commands}>
+            {commands.map(({ command, description, planned }) => (
+              <li key={command} className={command.includes("please") ? styles.courtesy : undefined}><code className={styles.command}><span>$</span> {command}{planned && <small className={styles.badge}>Planned</small>}</code>
+                <span className={styles.commandHelp}>{description}</span></li>
+            ))}
+          </ul>
+        </div>
+      </section>
+      <section className={styles.feature}>
+        <Artwork name="microphone" />
+        <div>
+          <h2>Ask Sir by Voice or Chat <small className={styles.badge}>Planned</small></h2>
+          <p>Request workflows and check run status by chat. Connect your own speech provider key for optional real-time voice.</p>
+          <ul className={styles.capabilities}><li><span aria-hidden="true">♩</span> Voice requests</li><li><span aria-hidden="true">☏</span> Chat &amp; run status</li></ul>
+        </div>
+      </section>
+      <section className={styles.closing}>
+        <Artwork name="closing" />
+        <div>
+          <h2>Get Started with sir.sh</h2>
+          <p>Bring a command butler to your computer. Install Sir and run your first local workflow.</p>
+          <Link href={github} className={styles.gold}>Get started <span aria-hidden="true">→</span></Link>
+        </div>
+      </section>
     </div>
   );
 }

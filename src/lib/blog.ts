@@ -1,10 +1,9 @@
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
-import MarkdownIt from 'markdown-it';
+import { parseMarkdown } from './content';
 
-const contentDir = path.join(process.cwd(), '../content/blog');
-const md = new MarkdownIt();
+const contentDir = path.join(process.cwd(), 'src/content/blog');
 
 export interface BlogPost {
   slug: string;
@@ -33,13 +32,15 @@ export function getAllPosts(): BlogPost[] {
         title: data.title as string,
         date: data.date as string,
         excerpt: data.excerpt as string,
-        content: md.render(content),
+        content: parseMarkdown(content),
       };
     })
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 }
 
 export function getPostBySlug(slug: string): BlogPost | null {
+  if (slug !== path.basename(slug)) return null;
+
   const filePath = path.join(contentDir, `${slug}.md`);
   if (!fs.existsSync(filePath)) {
     return null;
@@ -53,6 +54,6 @@ export function getPostBySlug(slug: string): BlogPost | null {
     title: data.title as string,
     date: data.date as string,
     excerpt: data.excerpt as string,
-    content: md.render(content),
+    content: parseMarkdown(content),
   };
 }
