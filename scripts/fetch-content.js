@@ -3,14 +3,15 @@
 const DOCS_REPO = 'sir-sh/docs';
 const SPECS_REPO = 'sir-sh/specs';
 const BRANCH = 'main';
+const QUICKSTART_REF = 'ffb9ccc384c13a1edf2de305bd587fba4cd91c10';
 const fs = require('fs');
 const path = require('path');
 
 const docsDir = path.join(__dirname, '../src/content/docs');
 const specsDir = path.join(__dirname, '../src/content/specs');
 
-async function fetchRaw(repo, filePath) {
-  const url = `https://raw.githubusercontent.com/${repo}/${BRANCH}/${filePath}`;
+async function fetchRaw(repo, filePath, ref = BRANCH) {
+  const url = `https://raw.githubusercontent.com/${repo}/${ref}/${filePath}`;
   const res = await fetch(url);
   if (!res.ok) return null;
   return res.text();
@@ -52,7 +53,9 @@ async function main() {
   ];
 
   for (const file of docFiles) {
-    const content = await fetchRaw(DOCS_REPO, file);
+    // Keep release-specific install instructions in sync with the bundled guide.
+    const ref = file === 'QUICKSTART.md' ? QUICKSTART_REF : BRANCH;
+    const content = await fetchRaw(DOCS_REPO, file, ref);
     if (content) {
       fs.writeFileSync(path.join(docsDir, file), content);
       console.log(`  ✓ ${file}`);
