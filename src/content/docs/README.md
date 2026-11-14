@@ -25,8 +25,8 @@ The `future/` directory contains detailed specifications for planned features:
 
 ### For Users
 - [Quick Start Guide](QUICKSTART.md)
-- [Installation](../README.md#installation)
-- [Core Commands](../README.md#core-commands)
+- [Installation](QUICKSTART.md#setup)
+- [Core Commands](https://github.com/sir-sh/cli#core-commands)
 
 ### For Developers
 - [Development Setup](development.md#setting-up-development-environment)

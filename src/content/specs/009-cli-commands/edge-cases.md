@@ -3,7 +3,7 @@
 | ID | Scenario | Expected Behavior |
 |----|----------|-------------------|
 | S009-EC-001 | Workflow name does not exist in any layer | Exit 1, error message "Workflow '{name}' not found" |
-| S009-EC-002 | Required input not provided in non-interactive mode | Exit 1, error message "Missing required input: {input}" |
+| S009-EC-002 | Required input not provided in non-interactive mode | Exit 1, error message "Missing required workflow input: {input}" |
 | S009-EC-003 | Empty workflow (no steps defined) | Display "No steps to execute", exit 0 |
 | S009-EC-004 | No `.sir/` layers found in project or global | Display "No .sir/ layers found", exit 0 with empty workflow list |
 | S009-EC-005 | Pack source URL is invalid or unreachable | Exit 1, error message "Failed to clone repository: {reason}" |
@@ -17,7 +17,7 @@
 | S009-EC-013 | Workflow with only task steps | All steps execute via task runner, exit 0 on success |
 | S009-EC-014 | Workflow name exceeds 255 characters | Exit 1, error message "Workflow name exceeds maximum length (255)" |
 | S009-EC-015 | Input value provided as positional argument after workflow name | Parse remaining positional arguments as input values in order |
-| S009-EC-016 | Input value provided as `--key=value` option | Map option name to input parameter, validate type |
+| S009-EC-016 | Input value provided as `--input=key=value` option | Map the supplied value to the declared input named `key` |
 | S009-EC-017 | Input has a default value and is not provided | Use default value for input |
 | S009-EC-018 | Workflow step fails during execution | Exit 1, display step error, rollback if applicable |
 | S009-EC-019 | Workflow step has `saveAs` variable assignment | Store step output in variable for use by subsequent steps |
