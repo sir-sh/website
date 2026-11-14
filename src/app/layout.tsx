@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { ClientLayout } from "@/components/ClientLayout";
+import Link from "next/link";
+import { SiteNavigation } from "@/components/SiteNavigation";
+import styles from "./home.module.css";
 
 export const metadata: Metadata = {
   title: "sir.sh - AI-Powered Task Runner",
@@ -16,9 +18,21 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className="min-h-full flex flex-col bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 antialiased">
-        <ClientLayout>{children}</ClientLayout>
+    <html lang="en">
+      <body className={styles.paper}>
+        <div className={styles.frame}>
+          <header className={styles.header}>
+            <div className={styles.masthead}>
+              <Link href="/" className={styles.wordmark}>sir.sh</Link>
+            </div>
+            <SiteNavigation />
+          </header>
+          <main className={styles.main}>{children}</main>
+          <footer className={styles.footer}>
+            <Link href="/" className={styles.wordmark}>sir.sh</Link>
+            <SiteNavigation footer />
+          </footer>
+        </div>
       </body>
     </html>
   );

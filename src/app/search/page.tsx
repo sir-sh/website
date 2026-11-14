@@ -50,16 +50,16 @@ export default function SearchPage() {
   };
 
   return (
-    <div className="flex-1 py-16">
+    <div className="content-page">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-8">
           <h1 className="text-3xl font-bold mb-2">Search</h1>
-          <p className="text-gray-600 dark:text-gray-400">Search the documentation and specifications</p>
+          <p className="content-muted">Search the documentation and specifications</p>
         </div>
 
         <div className="mb-8">
           <div className="relative">
-            <svg className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 content-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
             <input
@@ -67,48 +67,46 @@ export default function SearchPage() {
               value={query}
               onChange={(e) => handleSearch(e.target.value)}
               placeholder="Search docs and specs..."
-              className="w-full pl-12 pr-4 py-4 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
-              autoFocus
+              className="w-full pl-12 pr-4 py-4 rounded-xl border content-input text-lg"
+              aria-label="Search docs and specs"
             />
           </div>
         </div>
 
-        {searched && (
-          <div className="mb-6 text-sm text-gray-500">
-            {results.length === 0 ? 'No results found' : `${results.length} result${results.length !== 1 ? 's' : ''} found`}
-          </div>
-        )}
+        <div role="status" className="text-sm content-muted not-empty:mb-6">
+          {searched && (results.length === 0 ? 'No results found' : `${results.length} result${results.length !== 1 ? 's' : ''} found`)}
+        </div>
 
         <div className="space-y-4">
           {results.map((item, i) => (
             <Link
               key={i}
               href={item.type === 'doc' ? `/docs/${item.slug}` : `/specs/${item.slug}`}
-              className="block p-6 rounded-xl border border-gray-200 dark:border-gray-800 hover:border-blue-400 dark:hover:border-blue-600 transition group"
+              className="block p-6 rounded-xl border content-card"
             >
               <div className="flex items-center gap-3 mb-2">
                 <span className={`px-2.5 py-0.5 rounded-full text-xs font-medium ${
                   item.type === 'doc'
-                    ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300'
-                    : 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300'
+                    ? 'content-label'
+                    : 'status-implemented'
                 }`}>
                   {item.type === 'doc' ? 'Doc' : 'Spec'}
                 </span>
-                <h3 className="font-semibold group-hover:text-blue-600 dark:group-hover:text-blue-400 transition">{item.title}</h3>
+                <h3 className="font-semibold">{item.title}</h3>
               </div>
-              <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-2">{item.content}</p>
+              <p className="text-sm content-muted line-clamp-2">{item.content}</p>
             </Link>
           ))}
         </div>
 
         {!searched && (
           <div className="text-center py-16">
-            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gray-100 dark:bg-gray-800 mb-4">
-              <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full content-label mb-4">
+              <svg className="w-8 h-8 content-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
               </svg>
             </div>
-            <p className="text-gray-500">Type at least 2 characters to search</p>
+            <p className="content-muted">Type at least 2 characters to search</p>
           </div>
         )}
       </div>
