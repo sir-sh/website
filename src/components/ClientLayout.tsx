@@ -1,37 +1,27 @@
 'use client';
 
-import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { ThemeToggle } from './ThemeToggle';
 
 export function ClientLayout({ children }: { children: React.ReactNode }) {
-  const [darkMode, setDarkMode] = useState(false);
-
-  useEffect(() => {
-    const stored = localStorage.getItem('darkMode');
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    setDarkMode(stored === 'true' || (!stored && prefersDark));
-  }, []);
-
-  useEffect(() => {
-    document.documentElement.classList.toggle('dark', darkMode);
-    localStorage.setItem('darkMode', String(darkMode));
-  }, [darkMode]);
+  const pathname = usePathname();
+  if (pathname === '/') return children;
 
   return (
     <>
       <header className="border-b border-gray-200 dark:border-gray-800 bg-white/80 dark:bg-gray-950/80 backdrop-blur-sm sticky top-0 z-50">
         <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <div className="flex items-center gap-8">
-            <a href="/" className="flex items-center gap-2 font-bold text-xl">
+            <Link href="/" className="flex items-center gap-2 font-bold text-xl">
               <span className="text-2xl">⚡</span>
               <span>sir.sh</span>
-            </a>
+            </Link>
             <div className="hidden md:flex items-center gap-6 text-sm">
-              <a href="/#features" className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100">Features</a>
-              <a href="/docs" className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100">Docs</a>
-              <a href="/specs" className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100">Specs</a>
-              <a href="/blog" className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100">Blog</a>
+              <Link href="/#features" className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100">Features</Link>
+              <Link href="/docs" className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100">Docs</Link>
+              <Link href="/specs" className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100">Specs</Link>
+              <Link href="/blog" className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100">Blog</Link>
               <a href="https://github.com/sir-sh/cli" target="_blank" rel="noopener" className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100">GitHub</a>
             </div>
           </div>
@@ -58,11 +48,11 @@ export function ClientLayout({ children }: { children: React.ReactNode }) {
               <span>·</span>
               <a href="https://github.com/sir-sh/cli" className="hover:text-gray-700">GitHub</a>
               <span>·</span>
-              <a href="/docs" className="hover:text-gray-700">Docs</a>
+              <Link href="/docs" className="hover:text-gray-700">Docs</Link>
               <span>·</span>
-              <a href="/specs" className="hover:text-gray-700">Specs</a>
+              <Link href="/specs" className="hover:text-gray-700">Specs</Link>
               <span>·</span>
-              <a href="/blog" className="hover:text-gray-700">Blog</a>
+              <Link href="/blog" className="hover:text-gray-700">Blog</Link>
             </div>
             <div className="text-sm text-gray-400">
               MIT License
