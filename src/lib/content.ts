@@ -1,5 +1,5 @@
-const fs = require('fs');
-const path = require('path');
+import fs from 'node:fs';
+import path from 'node:path';
 
 const docsDir = path.join(process.cwd(), 'src/content/docs');
 const specsDir = path.join(process.cwd(), 'src/content/specs');

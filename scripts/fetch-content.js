@@ -4,8 +4,11 @@ const DOCS_REPO = 'sir-sh/docs';
 const SPECS_REPO = 'sir-sh/specs';
 const BRANCH = 'main';
 const QUICKSTART_REF = 'a64a8ce16b361a73941c1f4dcf1948ace4994eb0';
+// This script runs as CommonJS under Node.
+/* eslint-disable @typescript-eslint/no-require-imports */
 const fs = require('fs');
 const path = require('path');
+/* eslint-enable @typescript-eslint/no-require-imports */
 
 const docsDir = path.join(__dirname, '../src/content/docs');
 const specsDir = path.join(__dirname, '../src/content/specs');
@@ -15,24 +18,6 @@ async function fetchRaw(repo, filePath, ref = BRANCH) {
   const res = await fetch(url);
   if (!res.ok) return null;
   return res.text();
-}
-
-async function fetchDocList() {
-  const url = `https://api.github.com/repos/${DOCS_REPO}/contents`;
-  const res = await fetch(url, {
-    headers: { 'Accept': 'application/vnd.github.v3+json' }
-  });
-  if (!res.ok) return [];
-  return res.json();
-}
-
-async function fetchSpecList() {
-  const url = `https://api.github.com/repos/${SPECS_REPO}/contents`;
-  const res = await fetch(url, {
-    headers: { 'Accept': 'application/vnd.github.v3+json' }
-  });
-  if (!res.ok) return [];
-  return res.json();
 }
 
 async function main() {
