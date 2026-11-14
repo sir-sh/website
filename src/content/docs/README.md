@@ -9,7 +9,7 @@ Welcome to sir.sh documentation! This directory contains comprehensive guides fo
 - **[Architecture](architecture.md)** - System design and core components
 - **[Development](development.md)** - Contributing and extending sir.sh
 - **[Testing](testing.md)** - Testing strategy and writing tests
-- **[Quick Start](QUICKSTART.md)** - Get up and running in 5 minutes
+- **[Quick Start](/docs/QUICKSTART)** - Get up and running in 5 minutes
 
 ### Future Enhancements
 
@@ -24,9 +24,9 @@ The `future/` directory contains detailed specifications for planned features:
 ## Quick Links
 
 ### For Users
-- [Quick Start Guide](QUICKSTART.md)
-- [Installation](../README.md#installation)
-- [Core Commands](../README.md#core-commands)
+- [Quick Start Guide](/docs/QUICKSTART)
+- [Installation](/docs/QUICKSTART)
+- [Core Commands](https://github.com/sir-sh/cli#core-commands)
 
 ### For Developers
 - [Development Setup](development.md#setting-up-development-environment)

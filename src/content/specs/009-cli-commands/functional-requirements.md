@@ -12,19 +12,19 @@ S009-FR-003 [P1] The `--dry-run` flag **MUST** show the execution plan without e
 
 S009-FR-004 [P1] The `--yes` flag **MUST** skip all confirmation prompts (including destructive operation warnings) and proceed to execution.
 
-S009-FR-005 [P1] The `--non-interactive` flag **MUST** run without any interactive prompts; required inputs **MUST** either have defaults or cause exit code 1.
+S009-FR-005 [P1] The `--non-interactive` flag **MUST** run without any interactive prompts; every required input **MUST** have an explicit value or a default. Missing required inputs cause exit code 1.
 
 S009-FR-006 [P1] Required inputs **MUST** be gathered interactively via `$this->ask()` unless `--non-interactive` is set.
 
 S009-FR-007 [P1] Optional inputs **MUST** use their default values when not provided and not in non-interactive mode.
 
-S009-FR-008 [P1] Inputs may be provided as a positional argument after the workflow name (first unmatched non-flag argument), as a named option (`--<name>`), or gathered interactively.
+S009-FR-008 [P1] Inputs may be supplied through repeatable `--input=name=value` options. Positional values after the workflow name fill remaining inputs in declaration order.
 
 S009-FR-009 [P1] Workflow execution **MUST** display the resolved workflow path from `_meta.path` before running.
 
 S009-FR-010 [P1] Successful workflow execution **MUST** print `Workflow completed successfully` and exit with code 0.
 
-S009-FR-011 [P1] Failed workflow execution **MUST** print the error message and exit with code 1.
+S009-FR-011 [P1] By default, a failing local step **MUST** be identified, stop execution before subsequent steps, and exit with code 1. `continueOnError: true` overrides this behavior.
 
 ### sir plan
 

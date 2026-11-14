@@ -45,6 +45,7 @@ async function main() {
   console.log('📄 Fetching docs...');
   const docFiles = [
     'README.md',
+    'QUICKSTART.md',
     'architecture.md',
     'development.md',
     'testing.md',
