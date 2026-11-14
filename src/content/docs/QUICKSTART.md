@@ -7,7 +7,7 @@ Requires PHP 8.2 or later, Composer, and Git.
 On Linux or macOS, clone into a directory where you can keep the checkout.
 
 ```sh
-git clone --branch v0.3.0 https://github.com/sir-sh/cli.git
+git clone --branch v0.4.0 https://github.com/sir-sh/cli.git
 cd cli
 composer install --no-dev --no-interaction
 mkdir -p "$HOME/.local/bin"
@@ -99,3 +99,41 @@ A JSON preview validates the supplied inputs without prompting. It does not
 print supplied values, shell source, or step arguments. It executes no steps
 and does not contact remote runners. Treat names in workflow files as public
 metadata.
+
+## Connect an MCP client
+
+Sir v0.4.0 can expose workflow discovery, inspection, and preview to a local
+MCP client. The stdio server starts discovery at the directory passed to
+`--project-dir` and also searches ancestor and global Sir layers. Use an
+absolute project path when configuring a client.
+
+With the pinned workflows installed as shown above, open a terminal from the
+project you want to inspect. Use Node.js 22.23.4 or another version supported by MCP Inspector 2.15.0:
+
+```sh
+SIR_BIN="$(command -v sir)"
+SIR_PROJECT="$PWD"
+
+sir_inspect() {
+    npx -y @modelcontextprotocol/inspector@2.15.0 --cli \
+        --method "$@" -- "$SIR_BIN" mcp:serve --project-dir="$SIR_PROJECT"
+}
+
+sir_inspect tools/list
+sir_inspect tools/call --tool-name list_workflows
+sir_inspect tools/call --tool-name show_workflow --tool-arg name=project-setup
+sir_inspect tools/call --tool-name preview_workflow --tool-arg name=project-setup
+```
+
+The first command should list exactly `list_workflows`, `show_workflow`, and
+`preview_workflow`. The second lists workflows, including the three registry
+examples installed above. For another stdio client, set its command to the
+absolute path printed by `command -v sir` and its arguments to
+`["mcp:serve", "--project-dir=/absolute/path/to/project"]`.
+
+Tool results contain the same data as the JSON CLI commands. Preview accepts
+optional `values` and `inputs` arrays of strings, matching positional
+arguments and named `name=value` assignments. Missing or invalid workflow
+inputs return `invalid_inputs`. Preview reports static conditions and loop
+counts and marks templated expressions as `unresolved`. It omits supplied
+values and step arguments and leaves the project untouched.
