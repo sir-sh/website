@@ -126,7 +126,7 @@ sir_inspect tools/call --tool-name preview_workflow --tool-arg name=project-setu
 ```
 
 The first command lists `list_workflows`, `show_workflow`,
-`preview_workflow`, and `request_workflow_run`. The second lists workflows, including the three registry
+`preview_workflow`, `request_workflow_run`, and `get_workflow_run_status`. The second lists workflows, including the three registry
 examples installed above. For another stdio client, set its command to the
 absolute path printed by `command -v sir` and its arguments to
 `["mcp:serve", "--project-dir=/absolute/path/to/project"]`.
@@ -174,10 +174,36 @@ resolved method definitions, and recorded inputs. If Sir detects a change,
 make a new request. A pipe, `--no-interaction`, and an expired, declined, or
 already claimed request cannot start a run.
 
-Requests are kept in `~/.sir/pending-runs/` with owner-only permissions. The
-files include the input values needed for execution and are removed when
-claimed or declined. Sir clears expired requests on access and when new requests
-arrive. Workflow commands run with your account's permissions and may use
-programs and other files from your environment. Read workflow and method
-definitions before approving. The approval command reports success or failure
-and keeps shell and method output out of the terminal.
+Query the request from an MCP server configured for the same project before
+approval, while the workflow runs, or after it finishes.
+
+```sh
+sir_inspect tools/call --tool-name get_workflow_run_status \
+    --tool-arg requestId=REQUEST_ID
+```
+
+The response contains `requestId`, `state`, `requestedAt`, `expiresAt`,
+`startedAt`, `finishedAt`, `elapsedSeconds`, and `outcome`. Timestamps are
+Unix seconds. Start and finish times are null until available. Elapsed time
+is null before execution and for an interrupted run whose end time is unknown.
+
+| State | Outcome |
+| --- | --- |
+| `pending` | null |
+| `declined` | `declined` |
+| `expired` | `expired` |
+| `running` | null |
+| `succeeded` | `completed` |
+| `failed` | `step_failed`, `execution_error`, or `interrupted` |
+
+Status checks leave workflows and request files untouched. Unknown, expired
+beyond retention, and other projects' request IDs return `request_unavailable`.
+Status records are available for 24 hours after a terminal state, measured from
+the start time for interrupted runs because the actual end time is unknown.
+
+Sir stores request data under `~/.sir/pending-runs/` with owner-only permissions.
+The execution payload is removed at approval or decline. New requests clean up
+expired payloads and records past retention. Re-request any pending runs
+after upgrading from v0.5. Status excludes input values,
+subprocess output, and exception details. Workflow commands run with your
+account's permissions. Review workflow and method definitions before approving.
