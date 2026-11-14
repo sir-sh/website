@@ -24,7 +24,7 @@ S009-FR-009 [P1] Workflow execution **MUST** display the resolved workflow path 
 
 S009-FR-010 [P1] Successful workflow execution **MUST** print `Workflow completed successfully` and exit with code 0.
 
-S009-FR-011 [P1] Failed local workflow execution **MUST** identify the failed step, stop before executing subsequent steps, and exit with code 1.
+S009-FR-011 [P1] By default, a failing local step **MUST** be identified, stop execution before subsequent steps, and exit with code 1. `continueOnError: true` overrides this behavior.
 
 ### sir plan
 

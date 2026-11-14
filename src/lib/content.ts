@@ -20,6 +20,7 @@ export interface SpecSummary {
 export async function getAllDocs(): Promise<{ title: string; slug: string; excerpt: string }[]> {
   const docs = [
     { title: 'README', slug: 'README', excerpt: 'Welcome to sir.sh documentation! Get started with installation and quick start guides.' },
+    { title: 'Quick Start', slug: 'QUICKSTART', excerpt: 'Install Sir and discover, preview, and run a local YAML workflow.' },
     { title: 'Architecture', slug: 'architecture', excerpt: 'LayerResolver discovers .sir/ directories. ConfigLoader merges YAML/JSON config. Context manages variables with template resolution.' },
     { title: 'Development', slug: 'development', excerpt: 'PHP 8.3 required. Clone repo, composer install. Run tests with pest. Create custom tasks implementing TaskInterface.' },
     { title: 'Testing', slug: 'testing', excerpt: 'Unit tests in tests/Unit/, integration in tests/Feature/. Run with ./vendor/bin/pest' },
@@ -33,7 +34,8 @@ export async function getDocFile(slug: string[]): Promise<DocSection | null> {
 
   if (!fs.existsSync(filePath)) return null;
 
-  const content = fs.readFileSync(filePath, 'utf-8');
+  const content = fs.readFileSync(filePath, 'utf-8')
+    .replace(/\]\(QUICKSTART\.md(?:#setup)?\)/g, '](/docs/QUICKSTART)');
   const title = fileName.replace('.md', '').replace(/-/g, ' ').replace(/\//g, ' / ');
 
   return {
