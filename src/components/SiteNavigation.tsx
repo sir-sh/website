@@ -6,6 +6,7 @@ import styles from '@/app/home.module.css';
 
 const links = [
   { href: '/workflows', label: 'Workflows' },
+  { href: '/remote', label: 'Remote' },
   { href: '/docs', label: 'Docs' },
   { href: '/specs', label: 'Specs' },
   { href: '/blog', label: 'Blog' },
