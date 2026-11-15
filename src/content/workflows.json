@@ -1,0 +1,56 @@
+{
+  "source": "https://github.com/sir-sh/workflows",
+  "revision": "77622658e690e5c2dcc83f01d6ebc36bbacc9738",
+  "workflows": [
+    {
+      "name": "hello",
+      "title": "Hello",
+      "description": "A minimal example that writes a greeting in the current directory.",
+      "path": "workflows/hello/hello.yml",
+      "sourceUrl": "https://github.com/sir-sh/workflows/blob/77622658e690e5c2dcc83f01d6ebc36bbacc9738/workflows/hello/hello.yml",
+      "downloadUrl": "https://raw.githubusercontent.com/sir-sh/workflows/77622658e690e5c2dcc83f01d6ebc36bbacc9738/workflows/hello/hello.yml",
+      "guideUrl": "https://github.com/sir-sh/workflows/blob/77622658e690e5c2dcc83f01d6ebc36bbacc9738/workflows/hello/README.md",
+      "yaml": "description: A local greeting workflow\n\ninputs:\n  name:\n    type: string\n    required: true\n\nsteps:\n  - name: Write greeting\n    shell: \"printf 'Hello, %s!\\\\n' {{shellQuote(name)}} > greeting.txt\"\n"
+    },
+    {
+      "name": "pre-release-checks",
+      "title": "Pre-release checks",
+      "description": "Runs a project’s existing verification command from its root. Supply a command you would run directly in your shell.",
+      "path": "workflows/pre-release-checks/pre-release-checks.yml",
+      "sourceUrl": "https://github.com/sir-sh/workflows/blob/77622658e690e5c2dcc83f01d6ebc36bbacc9738/workflows/pre-release-checks/pre-release-checks.yml",
+      "downloadUrl": "https://raw.githubusercontent.com/sir-sh/workflows/77622658e690e5c2dcc83f01d6ebc36bbacc9738/workflows/pre-release-checks/pre-release-checks.yml",
+      "guideUrl": "https://github.com/sir-sh/workflows/blob/77622658e690e5c2dcc83f01d6ebc36bbacc9738/workflows/pre-release-checks/README.md",
+      "yaml": "description: Run the project's existing release checks in the current directory\ninputs:\n  command:\n    type: string\n    required: true\nsteps:\n  - name: Run project checks\n    shell: sh -eu -c {{shellQuote(command)}}\n"
+    },
+    {
+      "name": "project-setup",
+      "title": "Project setup",
+      "description": "Installs locked dependencies in the current project. Use a disposable checkout when trying this workflow. Run it from the root of a trusted project.",
+      "path": "workflows/project-setup/project-setup.yml",
+      "sourceUrl": "https://github.com/sir-sh/workflows/blob/77622658e690e5c2dcc83f01d6ebc36bbacc9738/workflows/project-setup/project-setup.yml",
+      "downloadUrl": "https://raw.githubusercontent.com/sir-sh/workflows/77622658e690e5c2dcc83f01d6ebc36bbacc9738/workflows/project-setup/project-setup.yml",
+      "guideUrl": "https://github.com/sir-sh/workflows/blob/77622658e690e5c2dcc83f01d6ebc36bbacc9738/workflows/project-setup/README.md",
+      "yaml": "description: Install locked project dependencies in the current directory\nsteps:\n  - name: Install dependencies\n    shell: |\n      set -eu\n      if [ ! -f composer.lock ] && [ ! -f package-lock.json ]; then\n        printf '%s\\n' 'Expected composer.lock or package-lock.json in the project root.' >&2\n        exit 2\n      fi\n      if [ -f composer.lock ]; then\n        composer install --no-interaction --prefer-dist\n      fi\n      if [ -f package-lock.json ]; then\n        npm ci --ignore-scripts\n      fi\n"
+    },
+    {
+      "name": "release-notes",
+      "title": "Release notes",
+      "description": "Prints one bullet per commit reachable from HEAD since a selected base. It does not create a tag, write a release, or push to a remote.",
+      "path": "workflows/release-notes/release-notes.yml",
+      "sourceUrl": "https://github.com/sir-sh/workflows/blob/77622658e690e5c2dcc83f01d6ebc36bbacc9738/workflows/release-notes/release-notes.yml",
+      "downloadUrl": "https://raw.githubusercontent.com/sir-sh/workflows/77622658e690e5c2dcc83f01d6ebc36bbacc9738/workflows/release-notes/release-notes.yml",
+      "guideUrl": "https://github.com/sir-sh/workflows/blob/77622658e690e5c2dcc83f01d6ebc36bbacc9738/workflows/release-notes/README.md",
+      "yaml": "description: Preview commits since a selected ref without publishing a release\ninputs:\n  base:\n    type: string\n    required: true\nsteps:\n  - name: Preview release notes\n    shell: |\n      set -eu\n      base=$(git rev-parse --verify --end-of-options {{shellQuote(base)}}'^{commit}')\n      git merge-base --is-ancestor \"$base\" HEAD\n      git --no-pager log --format='- %s (%h)' \"$base..HEAD\"\n"
+    },
+    {
+      "name": "review",
+      "title": "Ulties project review",
+      "description": "The legacy Sir review example uses Git and CodeRabbit to prepare review reports for a project under the Ulties organization.",
+      "path": "workflows/review/review.yml",
+      "sourceUrl": "https://github.com/sir-sh/workflows/blob/77622658e690e5c2dcc83f01d6ebc36bbacc9738/workflows/review/review.yml",
+      "downloadUrl": "https://raw.githubusercontent.com/sir-sh/workflows/77622658e690e5c2dcc83f01d6ebc36bbacc9738/workflows/review/review.yml",
+      "guideUrl": "https://github.com/sir-sh/workflows/blob/77622658e690e5c2dcc83f01d6ebc36bbacc9738/workflows/review/README.md",
+      "yaml": "description: \"Review a project by running tests and CodeRabbit analysis\"\n\ninputs:\n  projectName:\n    type: string\n    required: true\n    description: \"Project name\"\n  target:\n    type: string\n    required: true\n    description: \"Target branch to review\"\n  base:\n    type: string\n    required: false\n    default: \"main\"\n    description: \"Base branch for comparison\"\n\nsteps:\n  - task: workspace.temp\n    with:\n      prefix: \"sir-review\"\n    saveAs: workspace\n\n  - task: git.clone\n    with:\n      repo: \"https://github.com/Ulties/{{projectName}}.git\"\n      folder: \"{{workspace.workspace}}/{{projectName}}\"\n    saveAs: cloneResult\n\n  - task: tests.auto\n    with:\n      cwd: \"{{cloneResult.path}}\"\n    saveAs: testResult\n\n  - task: files.writeMd\n    with:\n      path: \"{{workspace.workspace}}/TEST_RESULT.md\"\n      title: \"Test Results for {{projectName}}\"\n      content: \"{{testResult.markdown}}\"\n\n  - task: coderabbit.review\n    with:\n      target: \"{{target}}\"\n      base: \"{{base}}\"\n      cwd: \"{{cloneResult.path}}\"\n    saveAs: reviewResult\n\n  - task: files.writeMd\n    with:\n      path: \"{{workspace.workspace}}/REVIEW.md\"\n      title: \"CodeRabbit Review for {{projectName}}\"\n      content: \"{{reviewResult.markdown}}\"\n\n  - shell: \"printf 'Results saved to %s\\\\n' {{shellQuote(workspace.workspace)}}\"\n"
+    }
+  ]
+}

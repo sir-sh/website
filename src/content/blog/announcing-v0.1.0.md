@@ -1,43 +1,19 @@
 ---
-title: "Announcing sir.sh v0.1.0"
-date: "2024-01-15"
-excerpt: "Today we're excited to announce the release of sir.sh v0.1.0 - a local-first workflow/task runner built on Laravel Zero."
+title: "Sir v0.1.0 ships the local workflow runner"
+date: "2026-11-14T06:51:45+01:00"
+excerpt: "Define a workflow in YAML, preview its steps, and run it locally with named inputs."
 ---
 
-Today we're excited to announce the release of **sir.sh v0.1.0** - a local-first workflow/task runner built on Laravel Zero.
+Sir v0.1.0 is the first tagged release of the local workflow runner. It discovers workflows from the current project and other `.sir` configuration layers. A workflow can declare its inputs and define a sequence of steps in YAML.
 
-## What is sir.sh?
+The release includes a small greeting workflow. A dry run shows the planned step. Running it for real writes `greeting.txt` in the current directory.
 
-sir.sh lets you define, share, and execute complex development workflows with AI assistance. It discovers `.sir/` directories from your current working directory to the filesystem root, merging configuration from all layers.
-
-## Key Features
-
-- **Layer-based Configuration**: Configuration cascades from global to project-specific
-- **YAML Workflows**: Define workflows in YAML with support for loops, conditionals, and nested variables
-- **Template System**: Use `{{variable}}` syntax with functions like `shellQuote()` and `default()`
-- **Pack System**: Install workflows from Git repositories with `sir pack install github:owner/repo`
-- **AI Agent Interface**: MCP-style tool surface for AI assistants to discover and execute workflows safely
-
-## Getting Started
-
-```bash
-curl -fsSL https://sir.sh/install.sh | bash
-sir init
-sir run my-workflow
+```sh
+sir workflows:list
+sir run hello --dry-run --non-interactive --input='name=Sir'
+sir run hello --non-interactive --input='name=Sir'
 ```
 
-## What's Next
+In v0.1.0, copy the workflow from `examples/workflows/hello.yml` into `~/.sir/workflows/` first. A missing required input returns a nonzero exit in non-interactive mode. A failing step stops the run unless the workflow author opts into continuing.
 
-We're working on:
-- Remote execution support (SSH, Docker, Kubernetes)
-- Workflow scheduling with cron
-- More built-in tasks and methods
-- Enhanced AI agent capabilities
-
-Check the [Specs](/specs) page for our full roadmap.
-
-## Links
-
-- [GitHub](https://github.com/sir-sh/cli)
-- [Documentation](/docs)
-- [Specifications](/specs)
+[Tagged v0.1.0 source and installation instructions](https://github.com/sir-sh/cli/tree/v0.1.0)
