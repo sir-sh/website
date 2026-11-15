@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 };
 
 const github = 'https://github.com/sir-sh/cli';
-const registry = 'https://github.com/sir-sh/workflows';
+const registry = '/workflows';
 
 function Divider() {
   return (

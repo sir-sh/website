@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "fetch-content": "node scripts/fetch-content.js",
-    "prebuild": "node scripts/fetch-content.js",
+    "fetch-content": "node scripts/fetch-content.js && node scripts/fetch-workflows.js",
+    "prebuild": "node scripts/fetch-content.js && node scripts/fetch-workflows.js --allow-stale",
     "build": "next build",
     "start": "next start",
     "lint": "eslint"

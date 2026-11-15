@@ -138,3 +138,40 @@ html {
 .prose th { background: #e5c5846b; text-align: start; }
 .prose .table-scroll { overflow-x: auto; margin-bottom: 1.1rem; }
 .prose .table-scroll table { margin-bottom: 0; }
+
+.reference-page { width: min(100%, 67rem); margin-inline: auto; }
+.reference-heading { border-bottom: 4px double #967a52; padding-bottom: 1rem; margin-bottom: 1.5rem; }
+.reference-heading p { margin-top: .35rem; }
+.reference-crumb { display: flex; flex-wrap: wrap; gap: .4rem; color: #5e492e; font-size: .9rem; margin-bottom: 1rem; }
+.reference-layout { display: grid; gap: clamp(1rem, 3vw, 2.5rem); grid-template-columns: minmax(9rem, 14rem) minmax(0, 1fr); align-items: start; }
+.reference-contents { border-block: 1px solid #967a52; padding: .65rem 0; font-size: .95rem; }
+.reference-contents h2 { font-size: 1rem; font-weight: 700; }
+.reference-contents ul { margin-block: .3rem .8rem; }
+.reference-contents li { padding-block: .18rem; }
+.reference-contents [aria-current] { font-weight: 700; }
+.reference-body { min-width: 0; max-width: 76ch; overflow-wrap: anywhere; }
+.reference-body section + section { margin-top: 2.5rem; }
+.reference-body :is(h1, h2, h3, section)[id] { scroll-margin-top: 1rem; }
+.reference-section-title { font-size: clamp(1.35rem, 3.5vw, 2.1rem); font-weight: 700; margin-bottom: .75rem; }
+.reference-start { padding: clamp(.9rem, 3vw, 1.5rem); margin-bottom: 1.5rem; }
+.reference-start h2 { font-size: 1.5rem; font-weight: 700; }
+.reference-start p { margin: .35rem 0 .65rem; }
+.reference-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr)); gap: .75rem; }
+.reference-catalog { display: grid; gap: .4rem; }
+.reference-list a { display: block; height: 100%; padding: .85rem 1rem; }
+.reference-list h3, .reference-catalog h2 { font-weight: 700; }
+.reference-list p { margin-top: .2rem; font-size: .95rem; }
+.reference-catalog a { display: grid; align-items: center; grid-template-columns: auto minmax(0, 1fr) auto; gap: clamp(.45rem, 2vw, 1rem); padding: .65rem .85rem; }
+.reference-badge { display: inline-block; border-radius: .25rem; font-size: .8rem; padding: .15rem .45rem; }
+.reference-pager { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .6rem 1.25rem; margin-top: 1.75rem; padding-top: 1rem; border-top: 4px double #967a52; }
+.reference-pager:empty { display: none; }
+
+@media (max-width: 760px) {
+  .reference-layout { grid-template-columns: 1fr; }
+  .reference-contents ul { display: flex; flex-wrap: wrap; gap: .2rem .85rem; }
+}
+
+@media (max-width: 420px) {
+  .reference-catalog a { grid-template-columns: minmax(0, 1fr) auto; }
+  .reference-catalog h2 { grid-row: 2; grid-column: 1 / -1; }
+}

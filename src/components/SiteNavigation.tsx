@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation';
 import styles from '@/app/home.module.css';
 
 const links = [
-  { href: 'https://github.com/sir-sh/workflows', label: 'Workflows' },
+  { href: '/workflows', label: 'Workflows' },
   { href: '/docs', label: 'Docs' },
   { href: '/specs', label: 'Specs' },
   { href: '/blog', label: 'Blog' },
