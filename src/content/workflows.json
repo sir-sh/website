@@ -1,25 +1,355 @@
 {
   "source": "https://github.com/sir-sh/workflows",
-  "revision": "77622658e690e5c2dcc83f01d6ebc36bbacc9738",
+  "revision": "4f632c4c8b90aa87ef14089ad07a934f6f693728",
   "workflows": [
+    {
+      "name": "check-final-newline",
+      "title": "Check final newline",
+      "description": "Check that a nonempty text file ends with a newline. Empty files pass.",
+      "path": "workflows/check-final-newline/check-final-newline.yml",
+      "sourceUrl": "https://github.com/sir-sh/workflows/blob/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/check-final-newline/check-final-newline.yml",
+      "downloadUrl": "https://raw.githubusercontent.com/sir-sh/workflows/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/check-final-newline/check-final-newline.yml",
+      "guideUrl": "https://github.com/sir-sh/workflows/blob/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/check-final-newline/README.md",
+      "yaml": "description: \"Check that a nonempty text file ends with a newline. Empty files pass.\"\n\ninputs:\n  path:\n    type: string\n    required: true\n\nsteps:\n  - name: \"Check final newline\"\n    shell: |\n      python3 - {{shellQuote(path)}} <<'PYTHON'\n      import os\n      import sys\n\n      with open(sys.argv[1], \"rb\") as source:\n          if source.seek(0, os.SEEK_END):\n              source.seek(-1, os.SEEK_END)\n              if source.read(1) != b\"\\n\":\n                  sys.exit(\"The file is missing a final newline.\")\n      print(\"Final newline check passed\")\n      PYTHON\n"
+    },
+    {
+      "name": "count-file-lines",
+      "title": "Count file lines",
+      "description": "Count newline characters in a named file.",
+      "path": "workflows/count-file-lines/count-file-lines.yml",
+      "sourceUrl": "https://github.com/sir-sh/workflows/blob/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/count-file-lines/count-file-lines.yml",
+      "downloadUrl": "https://raw.githubusercontent.com/sir-sh/workflows/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/count-file-lines/count-file-lines.yml",
+      "guideUrl": "https://github.com/sir-sh/workflows/blob/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/count-file-lines/README.md",
+      "yaml": "description: Count newline characters in a named file.\n\ninputs:\n  path:\n    type: string\n    required: true\n\nsteps:\n  - name: Count file lines\n    shell: |\n      wc -l < {{shellQuote(path)}}\n"
+    },
+    {
+      "name": "directory-size",
+      "title": "Directory size",
+      "description": "Report the disk space used by the current directory.",
+      "path": "workflows/directory-size/directory-size.yml",
+      "sourceUrl": "https://github.com/sir-sh/workflows/blob/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/directory-size/directory-size.yml",
+      "downloadUrl": "https://raw.githubusercontent.com/sir-sh/workflows/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/directory-size/directory-size.yml",
+      "guideUrl": "https://github.com/sir-sh/workflows/blob/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/directory-size/README.md",
+      "yaml": "description: Report the disk space used by the current directory.\n\nsteps:\n  - name: Directory size\n    shell: |\n      du -sh .\n"
+    },
+    {
+      "name": "disk-free",
+      "title": "Disk free space",
+      "description": "Show available space on the filesystem containing the current directory.",
+      "path": "workflows/disk-free/disk-free.yml",
+      "sourceUrl": "https://github.com/sir-sh/workflows/blob/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/disk-free/disk-free.yml",
+      "downloadUrl": "https://raw.githubusercontent.com/sir-sh/workflows/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/disk-free/disk-free.yml",
+      "guideUrl": "https://github.com/sir-sh/workflows/blob/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/disk-free/README.md",
+      "yaml": "description: Show available space on the filesystem containing the current directory.\n\nsteps:\n  - name: Disk free space\n    shell: |\n      df -h .\n"
+    },
+    {
+      "name": "docker-compose-check",
+      "title": "Check Docker Compose configuration",
+      "description": "Validate the Compose configuration without starting services or printing the rendered configuration.",
+      "path": "workflows/docker-compose-check/docker-compose-check.yml",
+      "sourceUrl": "https://github.com/sir-sh/workflows/blob/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/docker-compose-check/docker-compose-check.yml",
+      "downloadUrl": "https://raw.githubusercontent.com/sir-sh/workflows/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/docker-compose-check/docker-compose-check.yml",
+      "guideUrl": "https://github.com/sir-sh/workflows/blob/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/docker-compose-check/README.md",
+      "yaml": "description: \"Validate the Compose configuration without starting services or printing the rendered configuration.\"\n\nsteps:\n  - name: \"Check Docker Compose configuration\"\n    shell: |\n      docker compose config --quiet\n"
+    },
+    {
+      "name": "docker-compose-services",
+      "title": "Docker Compose services",
+      "description": "Show the status of all services in the current Compose project, including stopped services.",
+      "path": "workflows/docker-compose-services/docker-compose-services.yml",
+      "sourceUrl": "https://github.com/sir-sh/workflows/blob/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/docker-compose-services/docker-compose-services.yml",
+      "downloadUrl": "https://raw.githubusercontent.com/sir-sh/workflows/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/docker-compose-services/docker-compose-services.yml",
+      "guideUrl": "https://github.com/sir-sh/workflows/blob/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/docker-compose-services/README.md",
+      "yaml": "description: \"Show the status of all services in the current Compose project, including stopped services.\"\n\nsteps:\n  - name: \"Docker Compose services\"\n    shell: |\n      docker compose ps --all\n"
+    },
+    {
+      "name": "docker-context",
+      "title": "Current Docker context",
+      "description": "Print the active Docker context before running commands against a daemon.",
+      "path": "workflows/docker-context/docker-context.yml",
+      "sourceUrl": "https://github.com/sir-sh/workflows/blob/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/docker-context/docker-context.yml",
+      "downloadUrl": "https://raw.githubusercontent.com/sir-sh/workflows/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/docker-context/docker-context.yml",
+      "guideUrl": "https://github.com/sir-sh/workflows/blob/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/docker-context/README.md",
+      "yaml": "description: \"Print the active Docker context before running commands against a daemon.\"\n\nsteps:\n  - name: \"Current Docker context\"\n    shell: |\n      docker context show\n"
+    },
+    {
+      "name": "docker-disk-usage",
+      "title": "Docker disk usage",
+      "description": "Show space used by Docker images, containers, volumes, and build cache.",
+      "path": "workflows/docker-disk-usage/docker-disk-usage.yml",
+      "sourceUrl": "https://github.com/sir-sh/workflows/blob/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/docker-disk-usage/docker-disk-usage.yml",
+      "downloadUrl": "https://raw.githubusercontent.com/sir-sh/workflows/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/docker-disk-usage/docker-disk-usage.yml",
+      "guideUrl": "https://github.com/sir-sh/workflows/blob/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/docker-disk-usage/README.md",
+      "yaml": "description: Show space used by Docker images, containers, volumes, and build cache.\n\nsteps:\n  - name: Docker disk usage\n    shell: |\n      docker system df\n"
+    },
+    {
+      "name": "docker-image-list",
+      "title": "Local Docker images",
+      "description": "List images stored on the current Docker daemon.",
+      "path": "workflows/docker-image-list/docker-image-list.yml",
+      "sourceUrl": "https://github.com/sir-sh/workflows/blob/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/docker-image-list/docker-image-list.yml",
+      "downloadUrl": "https://raw.githubusercontent.com/sir-sh/workflows/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/docker-image-list/docker-image-list.yml",
+      "guideUrl": "https://github.com/sir-sh/workflows/blob/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/docker-image-list/README.md",
+      "yaml": "description: List images stored on the current Docker daemon.\n\nsteps:\n  - name: Local Docker images\n    shell: |\n      docker image ls\n"
+    },
+    {
+      "name": "docker-running",
+      "title": "Running Docker containers",
+      "description": "List running containers with their names, images, and status.",
+      "path": "workflows/docker-running/docker-running.yml",
+      "sourceUrl": "https://github.com/sir-sh/workflows/blob/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/docker-running/docker-running.yml",
+      "downloadUrl": "https://raw.githubusercontent.com/sir-sh/workflows/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/docker-running/docker-running.yml",
+      "guideUrl": "https://github.com/sir-sh/workflows/blob/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/docker-running/README.md",
+      "yaml": "description: List running containers with their names, images, and status.\n\nsteps:\n  - name: Running Docker containers\n    shell: |\n      docker container ls\n"
+    },
+    {
+      "name": "file-compare",
+      "title": "Compare two text files",
+      "description": "Show a unified diff between two local text files. Differences are a successful result.",
+      "path": "workflows/file-compare/file-compare.yml",
+      "sourceUrl": "https://github.com/sir-sh/workflows/blob/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/file-compare/file-compare.yml",
+      "downloadUrl": "https://raw.githubusercontent.com/sir-sh/workflows/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/file-compare/file-compare.yml",
+      "guideUrl": "https://github.com/sir-sh/workflows/blob/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/file-compare/README.md",
+      "yaml": "description: \"Show a unified diff between two local text files. Differences are a successful result.\"\n\ninputs:\n  before:\n    type: string\n    required: true\n  after:\n    type: string\n    required: true\n\nsteps:\n  - name: \"Compare two text files\"\n    shell: |\n      set -eu\n      before={{shellQuote(before)}}\n      after={{shellQuote(after)}}\n      [ \"$before\" != - ] || before=./-\n      [ \"$after\" != - ] || after=./-\n      status=0\n      diff -u -- \"$before\" \"$after\" || status=$?\n      if [ \"$status\" -gt 1 ]; then\n        exit \"$status\"\n      fi\n"
+    },
+    {
+      "name": "file-sha256",
+      "title": "File SHA-256",
+      "description": "Print the SHA-256 digest of a named file.",
+      "path": "workflows/file-sha256/file-sha256.yml",
+      "sourceUrl": "https://github.com/sir-sh/workflows/blob/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/file-sha256/file-sha256.yml",
+      "downloadUrl": "https://raw.githubusercontent.com/sir-sh/workflows/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/file-sha256/file-sha256.yml",
+      "guideUrl": "https://github.com/sir-sh/workflows/blob/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/file-sha256/README.md",
+      "yaml": "description: Print the SHA-256 digest of a named file.\n\ninputs:\n  path:\n    type: string\n    required: true\n\nsteps:\n  - name: File SHA-256\n    shell: |\n      set -eu\n      path={{shellQuote(path)}}\n      if command -v sha256sum >/dev/null 2>&1; then\n        sha256sum < \"$path\"\n      else\n        shasum -a 256 < \"$path\"\n      fi\n"
+    },
+    {
+      "name": "file-size-bytes",
+      "title": "File size in bytes",
+      "description": "Print the exact byte count of a named file.",
+      "path": "workflows/file-size-bytes/file-size-bytes.yml",
+      "sourceUrl": "https://github.com/sir-sh/workflows/blob/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/file-size-bytes/file-size-bytes.yml",
+      "downloadUrl": "https://raw.githubusercontent.com/sir-sh/workflows/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/file-size-bytes/file-size-bytes.yml",
+      "guideUrl": "https://github.com/sir-sh/workflows/blob/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/file-size-bytes/README.md",
+      "yaml": "description: \"Print the exact byte count of a named file.\"\n\ninputs:\n  path:\n    type: string\n    required: true\n\nsteps:\n  - name: \"File size in bytes\"\n    shell: |\n      wc -c < {{shellQuote(path)}}\n"
+    },
+    {
+      "name": "git-check-whitespace",
+      "title": "Check Git diff whitespace",
+      "description": "Report whitespace errors in staged and unstaged changes.",
+      "path": "workflows/git-check-whitespace/git-check-whitespace.yml",
+      "sourceUrl": "https://github.com/sir-sh/workflows/blob/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/git-check-whitespace/git-check-whitespace.yml",
+      "downloadUrl": "https://raw.githubusercontent.com/sir-sh/workflows/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/git-check-whitespace/git-check-whitespace.yml",
+      "guideUrl": "https://github.com/sir-sh/workflows/blob/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/git-check-whitespace/README.md",
+      "yaml": "description: Report whitespace errors in staged and unstaged changes.\n\nsteps:\n  - name: Check Git diff whitespace\n    shell: |\n      status=0\n      git --no-pager diff --check || status=$?\n      git --no-pager diff --cached --check || status=$?\n      exit \"$status\"\n"
+    },
+    {
+      "name": "git-conflicted-files",
+      "title": "Git conflicted files",
+      "description": "List unresolved paths during a merge, rebase, or cherry-pick.",
+      "path": "workflows/git-conflicted-files/git-conflicted-files.yml",
+      "sourceUrl": "https://github.com/sir-sh/workflows/blob/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/git-conflicted-files/git-conflicted-files.yml",
+      "downloadUrl": "https://raw.githubusercontent.com/sir-sh/workflows/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/git-conflicted-files/git-conflicted-files.yml",
+      "guideUrl": "https://github.com/sir-sh/workflows/blob/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/git-conflicted-files/README.md",
+      "yaml": "description: \"List unresolved paths during a merge, rebase, or cherry-pick.\"\n\nsteps:\n  - name: \"Git conflicted files\"\n    shell: |\n      git --no-pager diff --name-only --diff-filter=U\n"
+    },
+    {
+      "name": "git-contributors",
+      "title": "Git contributors",
+      "description": "Count commits per author on the current branch using the repository mailmap.",
+      "path": "workflows/git-contributors/git-contributors.yml",
+      "sourceUrl": "https://github.com/sir-sh/workflows/blob/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/git-contributors/git-contributors.yml",
+      "downloadUrl": "https://raw.githubusercontent.com/sir-sh/workflows/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/git-contributors/git-contributors.yml",
+      "guideUrl": "https://github.com/sir-sh/workflows/blob/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/git-contributors/README.md",
+      "yaml": "description: \"Count commits per author on the current branch using the repository mailmap.\"\n\nsteps:\n  - name: \"Git contributors\"\n    shell: |\n      git shortlog -sn HEAD\n"
+    },
+    {
+      "name": "git-diff-summary",
+      "title": "Unstaged Git diff summary",
+      "description": "Summarize unstaged changes to tracked files.",
+      "path": "workflows/git-diff-summary/git-diff-summary.yml",
+      "sourceUrl": "https://github.com/sir-sh/workflows/blob/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/git-diff-summary/git-diff-summary.yml",
+      "downloadUrl": "https://raw.githubusercontent.com/sir-sh/workflows/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/git-diff-summary/git-diff-summary.yml",
+      "guideUrl": "https://github.com/sir-sh/workflows/blob/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/git-diff-summary/README.md",
+      "yaml": "description: Summarize unstaged changes to tracked files.\n\nsteps:\n  - name: Unstaged Git diff summary\n    shell: |\n      git --no-pager diff --stat\n"
+    },
+    {
+      "name": "git-last-file-change",
+      "title": "Last Git change to a file",
+      "description": "Show the latest commit that changed a repository-relative path.",
+      "path": "workflows/git-last-file-change/git-last-file-change.yml",
+      "sourceUrl": "https://github.com/sir-sh/workflows/blob/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/git-last-file-change/git-last-file-change.yml",
+      "downloadUrl": "https://raw.githubusercontent.com/sir-sh/workflows/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/git-last-file-change/git-last-file-change.yml",
+      "guideUrl": "https://github.com/sir-sh/workflows/blob/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/git-last-file-change/README.md",
+      "yaml": "description: \"Show the latest commit that changed a repository-relative path.\"\n\ninputs:\n  path:\n    type: string\n    required: true\n\nsteps:\n  - name: \"Last Git change to a file\"\n    shell: |\n      git --no-pager --literal-pathspecs log -1 --format=fuller -- {{shellQuote(path)}}\n"
+    },
+    {
+      "name": "git-local-branches",
+      "title": "Local Git branches",
+      "description": "List local branches in most recently updated order.",
+      "path": "workflows/git-local-branches/git-local-branches.yml",
+      "sourceUrl": "https://github.com/sir-sh/workflows/blob/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/git-local-branches/git-local-branches.yml",
+      "downloadUrl": "https://raw.githubusercontent.com/sir-sh/workflows/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/git-local-branches/git-local-branches.yml",
+      "guideUrl": "https://github.com/sir-sh/workflows/blob/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/git-local-branches/README.md",
+      "yaml": "description: List local branches in most recently updated order.\n\nsteps:\n  - name: Local Git branches\n    shell: |\n      git for-each-ref --sort=-committerdate refs/heads\n"
+    },
+    {
+      "name": "git-merged-branches",
+      "title": "Merged Git branches",
+      "description": "List local branches already merged into the current commit.",
+      "path": "workflows/git-merged-branches/git-merged-branches.yml",
+      "sourceUrl": "https://github.com/sir-sh/workflows/blob/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/git-merged-branches/git-merged-branches.yml",
+      "downloadUrl": "https://raw.githubusercontent.com/sir-sh/workflows/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/git-merged-branches/git-merged-branches.yml",
+      "guideUrl": "https://github.com/sir-sh/workflows/blob/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/git-merged-branches/README.md",
+      "yaml": "description: List local branches already merged into the current commit.\n\nsteps:\n  - name: Merged Git branches\n    shell: |\n      git --no-pager branch --list --merged HEAD\n"
+    },
+    {
+      "name": "git-recent-commits",
+      "title": "Recent Git commits",
+      "description": "Show the last ten commits on the current branch.",
+      "path": "workflows/git-recent-commits/git-recent-commits.yml",
+      "sourceUrl": "https://github.com/sir-sh/workflows/blob/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/git-recent-commits/git-recent-commits.yml",
+      "downloadUrl": "https://raw.githubusercontent.com/sir-sh/workflows/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/git-recent-commits/git-recent-commits.yml",
+      "guideUrl": "https://github.com/sir-sh/workflows/blob/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/git-recent-commits/README.md",
+      "yaml": "description: Show the last ten commits on the current branch.\n\nsteps:\n  - name: Recent Git commits\n    shell: |\n      git --no-pager log -10 --oneline\n"
+    },
+    {
+      "name": "git-recent-tags",
+      "title": "Recent Git tags",
+      "description": "List up to ten tags in newest-first order.",
+      "path": "workflows/git-recent-tags/git-recent-tags.yml",
+      "sourceUrl": "https://github.com/sir-sh/workflows/blob/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/git-recent-tags/git-recent-tags.yml",
+      "downloadUrl": "https://raw.githubusercontent.com/sir-sh/workflows/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/git-recent-tags/git-recent-tags.yml",
+      "guideUrl": "https://github.com/sir-sh/workflows/blob/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/git-recent-tags/README.md",
+      "yaml": "description: List up to ten tags in newest-first order.\n\nsteps:\n  - name: Recent Git tags\n    shell: |\n      git for-each-ref --count=10 --sort=-creatordate --format='%(refname:short)' refs/tags\n"
+    },
+    {
+      "name": "git-release-files",
+      "title": "Git release file changes",
+      "description": "List added, modified, and deleted paths between a chosen Git ref and HEAD.",
+      "path": "workflows/git-release-files/git-release-files.yml",
+      "sourceUrl": "https://github.com/sir-sh/workflows/blob/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/git-release-files/git-release-files.yml",
+      "downloadUrl": "https://raw.githubusercontent.com/sir-sh/workflows/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/git-release-files/git-release-files.yml",
+      "guideUrl": "https://github.com/sir-sh/workflows/blob/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/git-release-files/README.md",
+      "yaml": "description: \"List added, modified, and deleted paths between a chosen Git ref and HEAD.\"\n\ninputs:\n  base:\n    type: string\n    required: true\n\nsteps:\n  - name: \"Git release file changes\"\n    shell: |\n      set -eu\n      base=$(git rev-parse --verify --end-of-options {{shellQuote(base)}}'^{commit}')\n      git --no-pager diff --name-status \"$base\" HEAD --\n"
+    },
+    {
+      "name": "git-repository-root",
+      "title": "Git repository root",
+      "description": "Print the root of the current Git worktree for scripts and editor tasks.",
+      "path": "workflows/git-repository-root/git-repository-root.yml",
+      "sourceUrl": "https://github.com/sir-sh/workflows/blob/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/git-repository-root/git-repository-root.yml",
+      "downloadUrl": "https://raw.githubusercontent.com/sir-sh/workflows/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/git-repository-root/git-repository-root.yml",
+      "guideUrl": "https://github.com/sir-sh/workflows/blob/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/git-repository-root/README.md",
+      "yaml": "description: \"Print the root of the current Git worktree for scripts and editor tasks.\"\n\nsteps:\n  - name: \"Git repository root\"\n    shell: |\n      git rev-parse --show-toplevel\n"
+    },
+    {
+      "name": "git-staged-summary",
+      "title": "Staged Git diff summary",
+      "description": "Summarize changes staged for the next commit.",
+      "path": "workflows/git-staged-summary/git-staged-summary.yml",
+      "sourceUrl": "https://github.com/sir-sh/workflows/blob/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/git-staged-summary/git-staged-summary.yml",
+      "downloadUrl": "https://raw.githubusercontent.com/sir-sh/workflows/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/git-staged-summary/git-staged-summary.yml",
+      "guideUrl": "https://github.com/sir-sh/workflows/blob/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/git-staged-summary/README.md",
+      "yaml": "description: Summarize changes staged for the next commit.\n\nsteps:\n  - name: Staged Git diff summary\n    shell: |\n      git --no-pager diff --cached --stat\n"
+    },
+    {
+      "name": "git-status",
+      "title": "Git working tree status",
+      "description": "Show the current branch and uncommitted changes.",
+      "path": "workflows/git-status/git-status.yml",
+      "sourceUrl": "https://github.com/sir-sh/workflows/blob/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/git-status/git-status.yml",
+      "downloadUrl": "https://raw.githubusercontent.com/sir-sh/workflows/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/git-status/git-status.yml",
+      "guideUrl": "https://github.com/sir-sh/workflows/blob/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/git-status/README.md",
+      "yaml": "description: Show the current branch and uncommitted changes.\n\nsteps:\n  - name: Git working tree status\n    shell: |\n      git status --short --branch\n"
+    },
+    {
+      "name": "git-submodule-status",
+      "title": "Git submodule status",
+      "description": "Inspect checked-out revisions and initialization status of Git submodules.",
+      "path": "workflows/git-submodule-status/git-submodule-status.yml",
+      "sourceUrl": "https://github.com/sir-sh/workflows/blob/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/git-submodule-status/git-submodule-status.yml",
+      "downloadUrl": "https://raw.githubusercontent.com/sir-sh/workflows/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/git-submodule-status/git-submodule-status.yml",
+      "guideUrl": "https://github.com/sir-sh/workflows/blob/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/git-submodule-status/README.md",
+      "yaml": "description: \"Inspect checked-out revisions and initialization status of Git submodules.\"\n\nsteps:\n  - name: \"Git submodule status\"\n    shell: |\n      git submodule status --recursive\n"
+    },
+    {
+      "name": "git-untracked-files",
+      "title": "Untracked Git files",
+      "description": "List untracked files while respecting Git ignore rules.",
+      "path": "workflows/git-untracked-files/git-untracked-files.yml",
+      "sourceUrl": "https://github.com/sir-sh/workflows/blob/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/git-untracked-files/git-untracked-files.yml",
+      "downloadUrl": "https://raw.githubusercontent.com/sir-sh/workflows/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/git-untracked-files/git-untracked-files.yml",
+      "guideUrl": "https://github.com/sir-sh/workflows/blob/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/git-untracked-files/README.md",
+      "yaml": "description: \"List untracked files while respecting Git ignore rules.\"\n\nsteps:\n  - name: \"Untracked Git files\"\n    shell: |\n      git -c core.quotePath=false ls-files --others --exclude-standard\n"
+    },
     {
       "name": "hello",
       "title": "Hello",
       "description": "A minimal example that writes a greeting in the current directory.",
       "path": "workflows/hello/hello.yml",
-      "sourceUrl": "https://github.com/sir-sh/workflows/blob/77622658e690e5c2dcc83f01d6ebc36bbacc9738/workflows/hello/hello.yml",
-      "downloadUrl": "https://raw.githubusercontent.com/sir-sh/workflows/77622658e690e5c2dcc83f01d6ebc36bbacc9738/workflows/hello/hello.yml",
-      "guideUrl": "https://github.com/sir-sh/workflows/blob/77622658e690e5c2dcc83f01d6ebc36bbacc9738/workflows/hello/README.md",
+      "sourceUrl": "https://github.com/sir-sh/workflows/blob/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/hello/hello.yml",
+      "downloadUrl": "https://raw.githubusercontent.com/sir-sh/workflows/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/hello/hello.yml",
+      "guideUrl": "https://github.com/sir-sh/workflows/blob/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/hello/README.md",
       "yaml": "description: A local greeting workflow\n\ninputs:\n  name:\n    type: string\n    required: true\n\nsteps:\n  - name: Write greeting\n    shell: \"printf 'Hello, %s!\\\\n' {{shellQuote(name)}} > greeting.txt\"\n"
+    },
+    {
+      "name": "json-pretty-print",
+      "title": "Pretty-print JSON",
+      "description": "Format a local JSON file for inspection and write the result to standard output.",
+      "path": "workflows/json-pretty-print/json-pretty-print.yml",
+      "sourceUrl": "https://github.com/sir-sh/workflows/blob/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/json-pretty-print/json-pretty-print.yml",
+      "downloadUrl": "https://raw.githubusercontent.com/sir-sh/workflows/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/json-pretty-print/json-pretty-print.yml",
+      "guideUrl": "https://github.com/sir-sh/workflows/blob/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/json-pretty-print/README.md",
+      "yaml": "description: \"Format a local JSON file for inspection and write the result to standard output.\"\n\ninputs:\n  path:\n    type: string\n    required: true\n\nsteps:\n  - name: \"Pretty-print JSON\"\n    shell: |\n      python3 -m json.tool < {{shellQuote(path)}}\n"
+    },
+    {
+      "name": "list-zip-contents",
+      "title": "List ZIP contents",
+      "description": "List archive entries without extracting any files.",
+      "path": "workflows/list-zip-contents/list-zip-contents.yml",
+      "sourceUrl": "https://github.com/sir-sh/workflows/blob/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/list-zip-contents/list-zip-contents.yml",
+      "downloadUrl": "https://raw.githubusercontent.com/sir-sh/workflows/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/list-zip-contents/list-zip-contents.yml",
+      "guideUrl": "https://github.com/sir-sh/workflows/blob/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/list-zip-contents/README.md",
+      "yaml": "description: \"List archive entries without extracting any files.\"\n\ninputs:\n  path:\n    type: string\n    required: true\n\nsteps:\n  - name: \"List ZIP contents\"\n    shell: |\n      python3 - {{shellQuote(path)}} <<'PYTHON'\n      import sys\n      from zipfile import ZipFile\n\n      with ZipFile(sys.argv[1]) as archive:\n          archive.printdir()\n      PYTHON\n"
+    },
+    {
+      "name": "machine-uptime",
+      "title": "Machine uptime",
+      "description": "Show how long the machine has been up and its load averages.",
+      "path": "workflows/machine-uptime/machine-uptime.yml",
+      "sourceUrl": "https://github.com/sir-sh/workflows/blob/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/machine-uptime/machine-uptime.yml",
+      "downloadUrl": "https://raw.githubusercontent.com/sir-sh/workflows/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/machine-uptime/machine-uptime.yml",
+      "guideUrl": "https://github.com/sir-sh/workflows/blob/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/machine-uptime/README.md",
+      "yaml": "description: Show how long the machine has been up and its load averages.\n\nsteps:\n  - name: Machine uptime\n    shell: |\n      uptime\n"
+    },
+    {
+      "name": "node-check-syntax",
+      "title": "Check JavaScript syntax",
+      "description": "Check JavaScript syntax with Node.js without evaluating the file.",
+      "path": "workflows/node-check-syntax/node-check-syntax.yml",
+      "sourceUrl": "https://github.com/sir-sh/workflows/blob/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/node-check-syntax/node-check-syntax.yml",
+      "downloadUrl": "https://raw.githubusercontent.com/sir-sh/workflows/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/node-check-syntax/node-check-syntax.yml",
+      "guideUrl": "https://github.com/sir-sh/workflows/blob/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/node-check-syntax/README.md",
+      "yaml": "description: \"Check JavaScript syntax with Node.js without evaluating the file.\"\n\ninputs:\n  path:\n    type: string\n    required: true\n\nsteps:\n  - name: \"Check JavaScript syntax\"\n    shell: |\n      path={{shellQuote(path)}}\n      [ \"$path\" != - ] || path=./-\n      node --check -- \"$path\"\n"
+    },
+    {
+      "name": "php-check-syntax",
+      "title": "Check PHP syntax",
+      "description": "Check a PHP file for syntax errors without executing it.",
+      "path": "workflows/php-check-syntax/php-check-syntax.yml",
+      "sourceUrl": "https://github.com/sir-sh/workflows/blob/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/php-check-syntax/php-check-syntax.yml",
+      "downloadUrl": "https://raw.githubusercontent.com/sir-sh/workflows/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/php-check-syntax/php-check-syntax.yml",
+      "guideUrl": "https://github.com/sir-sh/workflows/blob/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/php-check-syntax/README.md",
+      "yaml": "description: \"Check a PHP file for syntax errors without executing it.\"\n\ninputs:\n  path:\n    type: string\n    required: true\n\nsteps:\n  - name: \"Check PHP syntax\"\n    shell: |\n      php -l -f {{shellQuote(path)}}\n"
     },
     {
       "name": "pre-release-checks",
       "title": "Pre-release checks",
       "description": "Runs a project’s existing verification command from its root. Supply a command you would run directly in your shell.",
       "path": "workflows/pre-release-checks/pre-release-checks.yml",
-      "sourceUrl": "https://github.com/sir-sh/workflows/blob/77622658e690e5c2dcc83f01d6ebc36bbacc9738/workflows/pre-release-checks/pre-release-checks.yml",
-      "downloadUrl": "https://raw.githubusercontent.com/sir-sh/workflows/77622658e690e5c2dcc83f01d6ebc36bbacc9738/workflows/pre-release-checks/pre-release-checks.yml",
-      "guideUrl": "https://github.com/sir-sh/workflows/blob/77622658e690e5c2dcc83f01d6ebc36bbacc9738/workflows/pre-release-checks/README.md",
+      "sourceUrl": "https://github.com/sir-sh/workflows/blob/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/pre-release-checks/pre-release-checks.yml",
+      "downloadUrl": "https://raw.githubusercontent.com/sir-sh/workflows/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/pre-release-checks/pre-release-checks.yml",
+      "guideUrl": "https://github.com/sir-sh/workflows/blob/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/pre-release-checks/README.md",
       "yaml": "description: Run the project's existing release checks in the current directory\ninputs:\n  command:\n    type: string\n    required: true\nsteps:\n  - name: Run project checks\n    shell: sh -eu -c {{shellQuote(command)}}\n"
     },
     {
@@ -27,30 +357,110 @@
       "title": "Project setup",
       "description": "Installs locked dependencies in the current project. Use a disposable checkout when trying this workflow. Run it from the root of a trusted project.",
       "path": "workflows/project-setup/project-setup.yml",
-      "sourceUrl": "https://github.com/sir-sh/workflows/blob/77622658e690e5c2dcc83f01d6ebc36bbacc9738/workflows/project-setup/project-setup.yml",
-      "downloadUrl": "https://raw.githubusercontent.com/sir-sh/workflows/77622658e690e5c2dcc83f01d6ebc36bbacc9738/workflows/project-setup/project-setup.yml",
-      "guideUrl": "https://github.com/sir-sh/workflows/blob/77622658e690e5c2dcc83f01d6ebc36bbacc9738/workflows/project-setup/README.md",
+      "sourceUrl": "https://github.com/sir-sh/workflows/blob/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/project-setup/project-setup.yml",
+      "downloadUrl": "https://raw.githubusercontent.com/sir-sh/workflows/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/project-setup/project-setup.yml",
+      "guideUrl": "https://github.com/sir-sh/workflows/blob/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/project-setup/README.md",
       "yaml": "description: Install locked project dependencies in the current directory\nsteps:\n  - name: Install dependencies\n    shell: |\n      set -eu\n      if [ ! -f composer.lock ] && [ ! -f package-lock.json ]; then\n        printf '%s\\n' 'Expected composer.lock or package-lock.json in the project root.' >&2\n        exit 2\n      fi\n      if [ -f composer.lock ]; then\n        composer install --no-interaction --prefer-dist\n      fi\n      if [ -f package-lock.json ]; then\n        npm ci --ignore-scripts\n      fi\n"
+    },
+    {
+      "name": "python-check-csv-columns",
+      "title": "Check CSV column widths",
+      "description": "Check that each CSV record has the same number of fields as the header.",
+      "path": "workflows/python-check-csv-columns/python-check-csv-columns.yml",
+      "sourceUrl": "https://github.com/sir-sh/workflows/blob/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/python-check-csv-columns/python-check-csv-columns.yml",
+      "downloadUrl": "https://raw.githubusercontent.com/sir-sh/workflows/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/python-check-csv-columns/python-check-csv-columns.yml",
+      "guideUrl": "https://github.com/sir-sh/workflows/blob/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/python-check-csv-columns/README.md",
+      "yaml": "description: \"Check that each CSV record has the same number of fields as the header.\"\n\ninputs:\n  path:\n    type: string\n    required: true\n\nsteps:\n  - name: \"Check CSV column widths\"\n    shell: |\n      python3 - {{shellQuote(path)}} <<'PYTHON'\n      import csv\n      import sys\n\n      with open(sys.argv[1], encoding=\"utf-8-sig\", newline=\"\") as source:\n          rows = csv.reader(source, strict=True)\n          header = next(rows, [])\n          if not header:\n              sys.exit(\"The CSV header is missing.\")\n          for row in rows:\n              if len(row) != len(header):\n                  sys.exit(f\"Record ending at line {rows.line_num}: expected {len(header)} fields, found {len(row)}.\")\n      print(f\"CSV records match the {len(header)} header fields.\")\n      PYTHON\n"
+    },
+    {
+      "name": "python-check-json",
+      "title": "Validate JSON",
+      "description": "Check that a named file contains parseable JSON.",
+      "path": "workflows/python-check-json/python-check-json.yml",
+      "sourceUrl": "https://github.com/sir-sh/workflows/blob/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/python-check-json/python-check-json.yml",
+      "downloadUrl": "https://raw.githubusercontent.com/sir-sh/workflows/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/python-check-json/python-check-json.yml",
+      "guideUrl": "https://github.com/sir-sh/workflows/blob/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/python-check-json/README.md",
+      "yaml": "description: Check that a named file contains parseable JSON.\n\ninputs:\n  path:\n    type: string\n    required: true\n\nsteps:\n  - name: Validate JSON\n    shell: |\n      python3 -c 'import json, sys; json.load(open(sys.argv[1], encoding=\"utf-8\")); print(\"JSON is valid\")' {{shellQuote(path)}}\n"
+    },
+    {
+      "name": "python-check-syntax",
+      "title": "Check Python syntax",
+      "description": "Parse a Python source file without importing it or writing bytecode.",
+      "path": "workflows/python-check-syntax/python-check-syntax.yml",
+      "sourceUrl": "https://github.com/sir-sh/workflows/blob/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/python-check-syntax/python-check-syntax.yml",
+      "downloadUrl": "https://raw.githubusercontent.com/sir-sh/workflows/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/python-check-syntax/python-check-syntax.yml",
+      "guideUrl": "https://github.com/sir-sh/workflows/blob/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/python-check-syntax/README.md",
+      "yaml": "description: \"Parse a Python source file without importing it or writing bytecode.\"\n\ninputs:\n  path:\n    type: string\n    required: true\n\nsteps:\n  - name: \"Check Python syntax\"\n    shell: |\n      python3 - {{shellQuote(path)}} <<'PYTHON'\n      import sys\n      import tokenize\n\n      path = sys.argv[1]\n      with tokenize.open(path) as source:\n          compile(source.read(), path, 'exec')\n      print(\"Python syntax is valid\")\n      PYTHON\n"
+    },
+    {
+      "name": "python-check-toml",
+      "title": "Validate TOML",
+      "description": "Check that a file contains valid TOML without modifying it.",
+      "path": "workflows/python-check-toml/python-check-toml.yml",
+      "sourceUrl": "https://github.com/sir-sh/workflows/blob/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/python-check-toml/python-check-toml.yml",
+      "downloadUrl": "https://raw.githubusercontent.com/sir-sh/workflows/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/python-check-toml/python-check-toml.yml",
+      "guideUrl": "https://github.com/sir-sh/workflows/blob/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/python-check-toml/README.md",
+      "yaml": "description: \"Check that a file contains valid TOML without modifying it.\"\n\ninputs:\n  path:\n    type: string\n    required: true\n\nsteps:\n  - name: \"Validate TOML\"\n    shell: |\n      python3 - {{shellQuote(path)}} <<'PYTHON'\n      import sys\n      import tomllib\n\n      with open(sys.argv[1], \"rb\") as source:\n          tomllib.load(source)\n      print(\"TOML is valid\")\n      PYTHON\n"
+    },
+    {
+      "name": "python-check-xml",
+      "title": "Validate XML syntax",
+      "description": "Check that a local XML document is well-formed without modifying it.",
+      "path": "workflows/python-check-xml/python-check-xml.yml",
+      "sourceUrl": "https://github.com/sir-sh/workflows/blob/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/python-check-xml/python-check-xml.yml",
+      "downloadUrl": "https://raw.githubusercontent.com/sir-sh/workflows/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/python-check-xml/python-check-xml.yml",
+      "guideUrl": "https://github.com/sir-sh/workflows/blob/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/python-check-xml/README.md",
+      "yaml": "description: \"Check that a local XML document is well-formed without modifying it.\"\n\ninputs:\n  path:\n    type: string\n    required: true\n\nsteps:\n  - name: \"Validate XML syntax\"\n    shell: |\n      python3 - {{shellQuote(path)}} <<'PYTHON'\n      import sys\n      from xml.etree import ElementTree\n\n      ElementTree.parse(sys.argv[1])\n      print(\"XML is well-formed\")\n      PYTHON\n"
     },
     {
       "name": "release-notes",
       "title": "Release notes",
       "description": "Prints one bullet per commit reachable from HEAD since a selected base. It does not create a tag, write a release, or push to a remote.",
       "path": "workflows/release-notes/release-notes.yml",
-      "sourceUrl": "https://github.com/sir-sh/workflows/blob/77622658e690e5c2dcc83f01d6ebc36bbacc9738/workflows/release-notes/release-notes.yml",
-      "downloadUrl": "https://raw.githubusercontent.com/sir-sh/workflows/77622658e690e5c2dcc83f01d6ebc36bbacc9738/workflows/release-notes/release-notes.yml",
-      "guideUrl": "https://github.com/sir-sh/workflows/blob/77622658e690e5c2dcc83f01d6ebc36bbacc9738/workflows/release-notes/README.md",
+      "sourceUrl": "https://github.com/sir-sh/workflows/blob/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/release-notes/release-notes.yml",
+      "downloadUrl": "https://raw.githubusercontent.com/sir-sh/workflows/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/release-notes/release-notes.yml",
+      "guideUrl": "https://github.com/sir-sh/workflows/blob/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/release-notes/README.md",
       "yaml": "description: Preview commits since a selected ref without publishing a release\ninputs:\n  base:\n    type: string\n    required: true\nsteps:\n  - name: Preview release notes\n    shell: |\n      set -eu\n      base=$(git rev-parse --verify --end-of-options {{shellQuote(base)}}'^{commit}')\n      git merge-base --is-ancestor \"$base\" HEAD\n      git --no-pager log --format='- %s (%h)' \"$base..HEAD\"\n"
     },
     {
-      "name": "review",
-      "title": "Ulties project review",
-      "description": "The legacy Sir review example uses Git and CodeRabbit to prepare review reports for a project under the Ulties organization.",
-      "path": "workflows/review/review.yml",
-      "sourceUrl": "https://github.com/sir-sh/workflows/blob/77622658e690e5c2dcc83f01d6ebc36bbacc9738/workflows/review/review.yml",
-      "downloadUrl": "https://raw.githubusercontent.com/sir-sh/workflows/77622658e690e5c2dcc83f01d6ebc36bbacc9738/workflows/review/review.yml",
-      "guideUrl": "https://github.com/sir-sh/workflows/blob/77622658e690e5c2dcc83f01d6ebc36bbacc9738/workflows/review/README.md",
-      "yaml": "description: \"Review a project by running tests and CodeRabbit analysis\"\n\ninputs:\n  projectName:\n    type: string\n    required: true\n    description: \"Project name\"\n  target:\n    type: string\n    required: true\n    description: \"Target branch to review\"\n  base:\n    type: string\n    required: false\n    default: \"main\"\n    description: \"Base branch for comparison\"\n\nsteps:\n  - task: workspace.temp\n    with:\n      prefix: \"sir-review\"\n    saveAs: workspace\n\n  - task: git.clone\n    with:\n      repo: \"https://github.com/Ulties/{{projectName}}.git\"\n      folder: \"{{workspace.workspace}}/{{projectName}}\"\n    saveAs: cloneResult\n\n  - task: tests.auto\n    with:\n      cwd: \"{{cloneResult.path}}\"\n    saveAs: testResult\n\n  - task: files.writeMd\n    with:\n      path: \"{{workspace.workspace}}/TEST_RESULT.md\"\n      title: \"Test Results for {{projectName}}\"\n      content: \"{{testResult.markdown}}\"\n\n  - task: coderabbit.review\n    with:\n      target: \"{{target}}\"\n      base: \"{{base}}\"\n      cwd: \"{{cloneResult.path}}\"\n    saveAs: reviewResult\n\n  - task: files.writeMd\n    with:\n      path: \"{{workspace.workspace}}/REVIEW.md\"\n      title: \"CodeRabbit Review for {{projectName}}\"\n      content: \"{{reviewResult.markdown}}\"\n\n  - shell: \"printf 'Results saved to %s\\\\n' {{shellQuote(workspace.workspace)}}\"\n"
+      "name": "shell-check-syntax",
+      "title": "Check POSIX shell syntax",
+      "description": "Parse a POSIX shell script without executing its commands.",
+      "path": "workflows/shell-check-syntax/shell-check-syntax.yml",
+      "sourceUrl": "https://github.com/sir-sh/workflows/blob/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/shell-check-syntax/shell-check-syntax.yml",
+      "downloadUrl": "https://raw.githubusercontent.com/sir-sh/workflows/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/shell-check-syntax/shell-check-syntax.yml",
+      "guideUrl": "https://github.com/sir-sh/workflows/blob/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/shell-check-syntax/README.md",
+      "yaml": "description: \"Parse a POSIX shell script without executing its commands.\"\n\ninputs:\n  path:\n    type: string\n    required: true\n\nsteps:\n  - name: \"Check POSIX shell syntax\"\n    shell: |\n      sh -n -- {{shellQuote(path)}}\n"
+    },
+    {
+      "name": "show-utc-time",
+      "title": "Show UTC time",
+      "description": "Print the current UTC time in an ISO 8601 format.",
+      "path": "workflows/show-utc-time/show-utc-time.yml",
+      "sourceUrl": "https://github.com/sir-sh/workflows/blob/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/show-utc-time/show-utc-time.yml",
+      "downloadUrl": "https://raw.githubusercontent.com/sir-sh/workflows/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/show-utc-time/show-utc-time.yml",
+      "guideUrl": "https://github.com/sir-sh/workflows/blob/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/show-utc-time/README.md",
+      "yaml": "description: Print the current UTC time in an ISO 8601 format.\n\nsteps:\n  - name: Show UTC time\n    shell: |\n      date -u '+%Y-%m-%dT%H:%M:%SZ'\n"
+    },
+    {
+      "name": "system-info",
+      "title": "System information",
+      "description": "Print the kernel name, release, and machine architecture.",
+      "path": "workflows/system-info/system-info.yml",
+      "sourceUrl": "https://github.com/sir-sh/workflows/blob/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/system-info/system-info.yml",
+      "downloadUrl": "https://raw.githubusercontent.com/sir-sh/workflows/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/system-info/system-info.yml",
+      "guideUrl": "https://github.com/sir-sh/workflows/blob/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/system-info/README.md",
+      "yaml": "description: Print the kernel name, release, and machine architecture.\n\nsteps:\n  - name: System information\n    shell: |\n      uname -srm\n"
+    },
+    {
+      "name": "tool-versions",
+      "title": "Developer tool versions",
+      "description": "Report installed versions of Git, Node.js, npm, PHP, Python, and Docker.",
+      "path": "workflows/tool-versions/tool-versions.yml",
+      "sourceUrl": "https://github.com/sir-sh/workflows/blob/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/tool-versions/tool-versions.yml",
+      "downloadUrl": "https://raw.githubusercontent.com/sir-sh/workflows/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/tool-versions/tool-versions.yml",
+      "guideUrl": "https://github.com/sir-sh/workflows/blob/4f632c4c8b90aa87ef14089ad07a934f6f693728/workflows/tool-versions/README.md",
+      "yaml": "description: Report installed versions of Git, Node.js, npm, PHP, Python, and Docker.\n\nsteps:\n  - name: Developer tool versions\n    shell: |\n      set -eu\n      for tool in git node npm php python3 docker; do\n        if command -v \"$tool\" >/dev/null 2>&1; then\n          \"$tool\" --version\n        else\n          printf '%s: unavailable\\n' \"$tool\"\n        fi\n      done\n"
     }
   ]
 }
