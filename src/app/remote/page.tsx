@@ -55,6 +55,7 @@ export default function RemotePage() {
               <li>Run and review workflows on your computer</li>
               <li>Install workflows from the public registry</li>
               <li>Use the CLI without a hosted account</li>
+              <li>At launch, a free hosted account will let you sign in and upgrade. The free plan includes zero device pairing slots.</li>
             </ul>
             <div className="mt-auto pt-5">
               <Link href="/docs/QUICKSTART" className={styles.ink}>Get started with Sir</Link>
@@ -67,6 +68,7 @@ export default function RemotePage() {
             <p className="content-muted mt-1">or €49 billed yearly</p>
             <ul className="mt-4 list-disc space-y-2 pl-5">
               <li>One account and up to three paired machines</li>
+              <li>When paid access ends, your devices stay paired. Renewing restores access to connections, syncing, and remote runs without re-pairing.</li>
               <li>Hosted dashboard with device status and recent run outcomes</li>
               <li>Request a run for an enabled workflow that takes no inputs. Approve it in the Sir CLI on the paired computer.</li>
             </ul>
